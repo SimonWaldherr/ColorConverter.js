@@ -10,7 +10,7 @@ Date: 06.03.2013
 
 ##demo
 
-Test this code on the associated github page [simonwaldherr.github.com/colorconverter.js/](http://simonwaldherr.github.com/colorconverter.js/).
+Test this code on the associated github page [simonwaldherr.github.com/colorconverter.js/](http://simonwaldherr.github.com/ColorConverter.js/).
 
 ##contact
 
