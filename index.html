@@ -4,7 +4,7 @@
   <title>ColorConverter</title>
   <style>
     body{
-      width: 80%;
+      width: 600px;
       margin: auto;
       padding: 0px;
     }
@@ -24,6 +24,7 @@
       height: 40px;
       width: 40px;
       float: left;
+      border-radius: 15px;
     }
   </style>
   <style id="style">
@@ -55,6 +56,8 @@
       document.getElementById('color2').style.backgroundColor = hslcss;
       document.getElementById('color3').style.backgroundColor = rgbcss;
       document.getElementById('color4').style.backgroundColor = hexcss;
+      
+      document.getElementsByTagName('body')[0].style.backgroundColor = hexcss;
 
       if((hsl[2]<60)||(Math.round((rgb2[0]+rgb2[1]+rgb2[2])/3)<120)) {
         document.getElementById('style').innerHTML = '.box{ color: #ffffff; }';
@@ -86,10 +89,9 @@
       var hexcss = '#'+hex;
       var rgb2   = convHEXtoRGB(hex);
       var rgb2cs = 'rgb('+rgb2[0]+','+rgb2[1]+','+rgb2[2]+')';
-      var boxes  = random(42,1337);
       var divs;
 
-      for(var i = 0; i < boxes; i++) {
+      for(var i = 0; i < 180; i++) {
         rgbinput = [random(0,255), random(0,255), random(0,255)];
         hsl  = convRGBtoHSL(rgbinput);
         rgb  = convHSLtoRGB(hsl);
