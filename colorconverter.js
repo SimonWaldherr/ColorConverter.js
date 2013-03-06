@@ -1,18 +1,17 @@
 /*
  *
  * ColorConverter
- * Version   0.01
+ * Version   0.02
  * License:   MIT
  * Simon Waldherr
  *
  */
 
-
-function convRGBtoHSL(rgb) {
+var convRGBtoHSL = function(RGB) {
   "use strict";
-  var r = Math.max(Math.min(rgb[0] / 255, 255), 0),
-      g = Math.max(Math.min(rgb[1] / 255, 255), 0),
-      b = Math.max(Math.min(rgb[2] / 255, 255), 0),
+  var r = Math.max(Math.min(RGB[0] / 255, 255), 0),
+      g = Math.max(Math.min(RGB[1] / 255, 255), 0),
+      b = Math.max(Math.min(RGB[2] / 255, 255), 0),
       max = Math.max(r, g, b), 
       min = Math.min(r, g, b),
       d, h, s, l = (max + min) / 2;
@@ -31,13 +30,13 @@ function convRGBtoHSL(rgb) {
     h = s = 0;
   }
   return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
-}
+};
 
-function convHSLtoRGB(hsl) {
+var convHSLtoRGB = function(HSL) {
   "use strict";
-  var h = Math.max(Math.min(hsl[0], 360), 0) / 360,
-      s = Math.max(Math.min(hsl[1], 100), 0) / 100,
-      l = Math.max(Math.min(hsl[2], 100), 0) / 100,
+  var h = Math.max(Math.min(HSL[0], 360), 0) / 360,
+      s = Math.max(Math.min(HSL[1], 100), 0) / 100,
+      l = Math.max(Math.min(HSL[2], 100), 0) / 100,
       v, min, sv, six, fract, vsfract, r, g, b;
   if (l <= 0.5) {
     v = l * (1 + s);
@@ -84,9 +83,9 @@ function convHSLtoRGB(hsl) {
     b = v - vsfract;
   }
   return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
-}
+};
 
-function convHEXtoRGB(hex) {
+var convHEXtoRGB = function(hex) {
   "use strict";
   if((hex.length < 2)||(hex.length > 6)) {
     return false;
@@ -109,25 +108,25 @@ function convHEXtoRGB(hex) {
     return false;
   }
   return [r, g, b];
-}
+};
 
-function convRGBtoHEX(rgb) {
+var convRGBtoHEX = function(RGB) {
   "use strict";
-  var hexr = Math.max(Math.min(parseInt(rgb[0], 10), 255), 0),
-      hexg = Math.max(Math.min(parseInt(rgb[1], 10), 255), 0),
-      hexb = Math.max(Math.min(parseInt(rgb[2], 10), 255), 0);
+  var hexr = Math.max(Math.min(parseInt(RGB[0], 10), 255), 0),
+      hexg = Math.max(Math.min(parseInt(RGB[1], 10), 255), 0),
+      hexb = Math.max(Math.min(parseInt(RGB[2], 10), 255), 0);
   hexr = hexr > 15 ? hexr.toString(16) : '0'+hexr.toString(16);
   hexg = hexg > 15 ? hexg.toString(16) : '0'+hexg.toString(16);
   hexb = hexb > 15 ? hexb.toString(16) : '0'+hexb.toString(16);
   return hexr+hexg+hexb;
-}
+};
 
-function convHSLtoHEX(hsl) {
+var convHSLtoHEX = function(HSL) {
   "use strict";
-  return convRGBtoHEX( convHSLtoRGB( hsl ) );
-}
+  return convRGBtoHEX( convHSLtoRGB( HSL ) );
+};
 
-function convHEXtoHSL(hex) {
+var convHEXtoHSL = function(hex) {
   "use strict";
   return convRGBtoHSL( convHEXtoRGB( hex ) );
-}
+};
