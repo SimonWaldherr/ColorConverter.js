@@ -1,7 +1,7 @@
 /*
  *
  * ColorConverter
- * Version   0.02
+ * Version   0.03
  * License:   MIT
  * Simon Waldherr
  *
@@ -9,9 +9,9 @@
 
 var convRGBtoHSL = function(RGB) {
   "use strict";
-  var r = Math.max(Math.min(RGB[0] / 255, 255), 0),
-      g = Math.max(Math.min(RGB[1] / 255, 255), 0),
-      b = Math.max(Math.min(RGB[2] / 255, 255), 0),
+  var r = Math.max(Math.min(RGB[0] / 255, 1), 0),
+      g = Math.max(Math.min(RGB[1] / 255, 1), 0),
+      b = Math.max(Math.min(RGB[2] / 255, 1), 0),
       max = Math.max(r, g, b), 
       min = Math.min(r, g, b),
       d, h, s, l = (max + min) / 2;
@@ -119,6 +119,30 @@ var convRGBtoHEX = function(RGB) {
   hexg = hexg > 15 ? hexg.toString(16) : '0'+hexg.toString(16);
   hexb = hexb > 15 ? hexb.toString(16) : '0'+hexb.toString(16);
   return hexr+hexg+hexb;
+};
+
+var convRGBtoYUV = function(RGB) {
+  "use strict";
+  var r = RGB[0],
+      g = RGB[1],
+      b = RGB[2],
+      y, u, v;
+  y = Math.round(0.299 * r + 0.587 * g + 0.114 * b);
+  u = Math.round((b - y) * 0.493);
+  v = Math.round((r - y) * 0.877);
+  return [y, u, v];
+};
+
+var convYUVtoRGB = function(YUV) {
+  "use strict";
+  var y = parseInt(YUV[0], 10),
+      u = parseInt(YUV[1], 10),
+      v = parseInt(YUV[2], 10),
+      r, g, b;
+  r = Math.round(y + v / 0.877);
+  g = Math.round(y - 0.39466 * u - 0.5806 * v);
+  b = Math.round(y + u / 0.493);
+  return [r, g, b];
 };
 
 var convHSLtoHEX = function(HSL) {

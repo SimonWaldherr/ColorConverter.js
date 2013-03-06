@@ -1,0 +1,206 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ColorConverter</title>
+  <style>
+    div.box div {
+      display: block;
+    }
+    div.box label {
+      width: 180px;
+      display: inline-block;
+    }
+    div.box input {
+      display: inline-block;
+      width: 180px;
+      height: 30px;
+    }
+    div.box span {
+      display: block;
+    }
+    #main {
+      width: 600px;
+      margin: auto;
+      padding: 40px 20px;
+      border-radius: 25px;
+      height: 190px;
+    }
+    .boxes{
+      display: inline-block;
+      position: relative;
+      top: 20px;
+      left: 0px;
+    }
+    .box {
+      height: 190px;
+      position: relative;
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      text-align: center;
+      padding-top: 10px;
+      display: block;
+      width: 200px;
+      float: left;
+      -webkit-text-shadow: 0px 0px 9px #000000; 
+      -moz-text-shadow: 0px 0px 9px #000000; 
+      -o-text-shadow: 0px 0px 9px #000000; 
+      text-shadow: 0px 0px 9px #000000; 
+      filter: dropshadow(color=#000000, offx=0, offy=0);
+    }
+    .smallBoxes{
+      position: relative;
+      top: 0px;
+      left: 0px;
+      height: 38px;
+      width: 38px;
+      margin: 1px;
+      float: left;
+      border-radius: 15px;
+    }
+  </style>
+  <style id="style">
+
+  </style>
+  <script src="colorconverter.js" type="text/javascript"></script>
+  <script>
+    function colorizeViaRGB() {
+      var inputr   = document.getElementById('rgb-r').value,
+          inputg   = document.getElementById('rgb-g').value,
+          inputb   = document.getElementById('rgb-b').value,
+          rgbinput = [inputr, inputg, inputb];
+
+      var hsl    = convRGBtoHSL(rgbinput);
+      var hslcss = 'hsl('+hsl[0]+','+hsl[1]+'%,'+hsl[2]+'%)';
+      var rgb    = convHSLtoRGB(hsl);
+      var rgbcss = 'rgb('+rgb[0]+','+rgb[1]+','+rgb[2]+')';
+      var yuv    = convRGBtoYUV(rgb);
+      var yuvcss = 'yuv('+yuv[0]+','+yuv[1]+','+yuv[2]+')';
+      var hex    = convRGBtoHEX(convYUVtoRGB(yuv));
+      var hexcss = '#'+hex;
+
+      document.getElementById('rgbvalue').innerHTML = rgbcss;
+      document.getElementById('hslvalue').innerHTML = hslcss;
+      document.getElementById('yuvvalue').innerHTML = yuvcss;
+      
+      document.getElementById('hsl-h').value = hsl[0];
+      document.getElementById('hsl-s').value = hsl[1];
+      document.getElementById('hsl-l').value = hsl[2];
+      
+      document.getElementById('yuv-y').value = yuv[0];
+      document.getElementById('yuv-u').value = yuv[1];
+      document.getElementById('yuv-v').value = yuv[2];
+
+      document.getElementById('color1').style.backgroundColor = rgbcss;
+      document.getElementById('color2').style.backgroundColor = hslcss;
+      document.getElementById('color3').style.backgroundColor = hslcss;
+
+      if((hsl[2]<60)||(Math.round((rgb[0]+rgb[1]+rgb[2])/3)<120)) {
+        document.getElementById('style').innerHTML = '.box{ color: #ffffff; text-shadow: 0px 0px 9px #000000; }';
+      } else {
+        document.getElementById('style').innerHTML = '.box{ color: #000000; text-shadow: 0px 0px 9px #ffffff; }';
+      }
+    }
+
+    function colorizeViaHSL() {
+      var inputh   = document.getElementById('hsl-h').value,
+          inputs   = document.getElementById('hsl-s').value,
+          inputl   = document.getElementById('hsl-l').value,
+          hslinput = [inputh, inputs, inputl];
+
+      var hsl    = hslinput
+      var hslcss = 'hsl('+hsl[0]+','+hsl[1]+'%,'+hsl[2]+'%)';
+      var rgb    = convHSLtoRGB(hsl);
+      var rgbcss = 'rgb('+rgb[0]+','+rgb[1]+','+rgb[2]+')';
+      var yuv    = convRGBtoYUV(rgb);
+      var yuvcss = 'yuv('+yuv[0]+','+yuv[1]+','+yuv[2]+')';
+      var hex    = convRGBtoHEX(convYUVtoRGB(yuv));
+      var hexcss = '#'+hex;
+
+      document.getElementById('rgbvalue').innerHTML = rgbcss;
+      document.getElementById('hslvalue').innerHTML = hslcss;
+      document.getElementById('yuvvalue').innerHTML = yuvcss;
+
+      document.getElementById('rgb-r').value = rgb[0];
+      document.getElementById('rgb-g').value = rgb[1];
+      document.getElementById('rgb-b').value = rgb[2];
+
+      document.getElementById('yuv-y').value = yuv[0];
+      document.getElementById('yuv-u').value = yuv[1];
+      document.getElementById('yuv-v').value = yuv[2];
+
+      document.getElementById('color1').style.backgroundColor = rgbcss;
+      document.getElementById('color2').style.backgroundColor = hslcss;
+      document.getElementById('color3').style.backgroundColor = hslcss;
+
+      if((hsl[2]<60)||(Math.round((rgb[0]+rgb[1]+rgb[2])/3)<120)) {
+        document.getElementById('style').innerHTML = '.box{ color: #ffffff; text-shadow: 0px 0px 9px #000000; }';
+      } else {
+        document.getElementById('style').innerHTML = '.box{ color: #000000; text-shadow: 0px 0px 9px #ffffff; }';
+      }
+    }
+
+    function colorizeViaYUV() {
+      var inputy   = document.getElementById('yuv-y').value,
+          inputu   = document.getElementById('yuv-u').value,
+          inputv   = document.getElementById('yuv-v').value,
+          yuvinput = [inputy, inputu, inputv];
+      
+      var hsl    = convRGBtoHSL(convYUVtoRGB(yuvinput));
+      var hslcss = 'hsl('+hsl[0]+','+hsl[1]+'%,'+hsl[2]+'%)';
+      var rgb    = convHSLtoRGB(hsl);
+      var rgbcss = 'rgb('+rgb[0]+','+rgb[1]+','+rgb[2]+')';
+      var yuv    = convRGBtoYUV(rgb);
+      var yuvcss = 'yuv('+yuv[0]+','+yuv[1]+','+yuv[2]+')';
+      var hex    = convRGBtoHEX(convYUVtoRGB(yuv));
+      var hexcss = '#'+hex;
+
+      document.getElementById('rgbvalue').innerHTML = rgbcss;
+      document.getElementById('hslvalue').innerHTML = hslcss;
+      document.getElementById('yuvvalue').innerHTML = yuvcss;
+
+      document.getElementById('hsl-h').value = hsl[0];
+      document.getElementById('hsl-s').value = hsl[1];
+      document.getElementById('hsl-l').value = hsl[2];
+
+      document.getElementById('rgb-r').value = rgb[0];
+      document.getElementById('rgb-g').value = rgb[1];
+      document.getElementById('rgb-b').value = rgb[2];
+
+      document.getElementById('color1').style.backgroundColor = rgbcss;
+      document.getElementById('color2').style.backgroundColor = hslcss;
+      document.getElementById('color3').style.backgroundColor = hslcss;
+
+      if((hsl[2]<60)||(Math.round((rgb[0]+rgb[1]+rgb[2])/3)<120)) {
+        document.getElementById('style').innerHTML = '.box{ color: #ffffff; text-shadow: 0px 0px 9px #000000; }';
+      } else {
+        document.getElementById('style').innerHTML = '.box{ color: #000000; text-shadow: 0px 0px 9px #ffffff; }';
+      }
+    }
+  </script>
+</head>
+<body onload="colorizeViaRGB();">
+  <div id="main">
+    <div id="color1" class="box">
+      <div><label for="rgb-r">Red</label><input id="rgb-r" onchange="colorizeViaRGB();" name="rgb-r" type="range" max="255" min="0" /></div>
+      <div><label for="rgb-g">Green</label><input id="rgb-g" onchange="colorizeViaRGB();" name="rgb-g" type="range" max="255" min="0" /></div>
+      <div><label for="rgb-b">Blue</label><input id="rgb-b" onchange="colorizeViaRGB();" name="rgb-b" type="range" max="255" min="0" /></div>
+      <span id="rgbvalue"></span>
+    </div>
+    <div id="color2" class="box">
+      <div><label for="hsl-h">Hue</label><input id="hsl-h" onchange="colorizeViaHSL();" name="hsl-h" type="range" max="360" min="0" /></div>
+      <div><label for="hsl-s">Saturation</label><input id="hsl-s" onchange="colorizeViaHSL();" name="hsl-s" type="range" max="100" min="0" /></div>
+      <div><label for="hsl-l">Luminosity</label><input id="hsl-l" onchange="colorizeViaHSL();" name="hsl-l" type="range" max="100" min="0" /></div>
+      <span id="hslvalue"></span>
+    </div>
+    <div id="color3" class="box">
+      <div><label for="yuv-y">Luminance</label><input id="yuv-y" onchange="colorizeViaYUV();" name="yuv-y" type="range" max="255" min="0" /></div>
+      <div><label for="yuv-u">Chrominance-U</label><input id="yuv-u" onchange="colorizeViaYUV();" name="yuv-u" type="range" max="111" min="-111" /></div>
+      <div><label for="yuv-v">Chrominance-V</label><input id="yuv-v" onchange="colorizeViaYUV();" name="yuv-v" type="range" max="157" min="-155" /></div>
+      <span id="yuvvalue"></span>
+    </div>
+    <div id="colors" class="boxes"></div>
+    <div id="clickd" class="boxes"></div>
+  </div>
+</body>
+</html>
