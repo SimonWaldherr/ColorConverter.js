@@ -1,7 +1,7 @@
 /*
  *
  * ColorConverter
- * Version   0.03
+ * Version   0.04
  * License:   MIT
  * Simon Waldherr
  *
@@ -9,9 +9,9 @@
 
 var convRGBtoHSL = function(RGB) {
   "use strict";
-  var r = Math.max(Math.min(RGB[0] / 255, 1), 0),
-      g = Math.max(Math.min(RGB[1] / 255, 1), 0),
-      b = Math.max(Math.min(RGB[2] / 255, 1), 0),
+  var r = Math.max(Math.min(parseInt(RGB[0], 10) / 255, 1), 0),
+      g = Math.max(Math.min(parseInt(RGB[1], 10) / 255, 1), 0),
+      b = Math.max(Math.min(parseInt(RGB[2], 10) / 255, 1), 0),
       max = Math.max(r, g, b), 
       min = Math.min(r, g, b),
       d, h, s, l = (max + min) / 2;
@@ -34,9 +34,9 @@ var convRGBtoHSL = function(RGB) {
 
 var convHSLtoRGB = function(HSL) {
   "use strict";
-  var h = Math.max(Math.min(HSL[0], 360), 0) / 360,
-      s = Math.max(Math.min(HSL[1], 100), 0) / 100,
-      l = Math.max(Math.min(HSL[2], 100), 0) / 100,
+  var h = Math.max(Math.min(parseInt(HSL[0], 10), 360), 0) / 360,
+      s = Math.max(Math.min(parseInt(HSL[1], 10), 100), 0) / 100,
+      l = Math.max(Math.min(parseInt(HSL[2], 10), 100), 0) / 100,
       v, min, sv, six, fract, vsfract, r, g, b;
   if (l <= 0.5) {
     v = l * (1 + s);
@@ -52,35 +52,37 @@ var convHSLtoRGB = function(HSL) {
   six = Math.floor(h);
   fract = h - six;
   vsfract = v * sv * fract;
-  if (six === 0 || six === 6) {
-    r = v;
-    g = min + vsfract; 
-    b = min;
-  }
-  else if (six === 1) {
-    r = v - vsfract;
-    g = v;
-    b = min;
-  }
-  else if (six === 2) {
-    r = min;
-    g = v;
-    b = min + vsfract;
-  }
-  else if (six === 3) {
-    r = min;
-    g = v - vsfract;
-    b = v;
-  }
-  else if (six === 4) {
-    r = min + vsfract;
-    g = min;
-    b = v;
-  }
-  else if (six === 5) {
-    r = v;
-    g = min;
-    b = v - vsfract;
+  switch(six) {
+    case 1:
+      r = v - vsfract;
+      g = v;
+      b = min;
+      break;
+    case 2:
+      r = min;
+      g = v;
+      b = min + vsfract;
+      break;
+    case 3:
+      r = min;
+      g = v - vsfract;
+      b = v;
+      break;
+    case 4:
+      r = min + vsfract;
+      g = min;
+      b = v;
+      break;
+    case 5:
+      r = v;
+      g = min;
+      b = v - vsfract;
+      break;
+    default:
+      r = v;
+      g = min + vsfract;
+      b = min;
+      break;
   }
   return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
 };
@@ -123,26 +125,106 @@ var convRGBtoHEX = function(RGB) {
 
 var convRGBtoYUV = function(RGB) {
   "use strict";
-  var r = RGB[0],
-      g = RGB[1],
-      b = RGB[2],
+  var r = parseInt(RGB[0], 10),
+      g = parseInt(RGB[1], 10),
+      b = parseInt(RGB[2], 10),
       y, u, v;
   y = Math.round(0.299 * r + 0.587 * g + 0.114 * b);
-  u = Math.round((b - y) * 0.493);
-  v = Math.round((r - y) * 0.877);
+  u = Math.round((((b - y) * 0.493)+111)/222*255);
+  v = Math.round((((r - y) * 0.877)+155)/312*255);
   return [y, u, v];
 };
 
 var convYUVtoRGB = function(YUV) {
   "use strict";
   var y = parseInt(YUV[0], 10),
-      u = parseInt(YUV[1], 10),
-      v = parseInt(YUV[2], 10),
+      u = parseInt(YUV[1], 10)/255*222-111,
+      v = parseInt(YUV[2], 10)/255*312-155,
       r, g, b;
   r = Math.round(y + v / 0.877);
   g = Math.round(y - 0.39466 * u - 0.5806 * v);
   b = Math.round(y + u / 0.493);
   return [r, g, b];
+};
+
+var convRGBtoHSV = function(RGB) {
+  "use strict";
+  var r = parseInt(RGB[0], 10) / 255,
+      g = parseInt(RGB[1], 10) / 255,
+      b = parseInt(RGB[2], 10) / 255,
+      max = Math.max(r, g, b),
+      min = Math.min(r, g, b),
+      d = max - min,
+      v = max,
+      h, s;
+  if(max === 0) {
+    s = 0;
+  } else {
+    s = d / max;
+  }
+  if(max === min) {
+    h = 0;
+  } else {
+    switch(max) {
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
+    }
+    h = h / 6;
+  }
+  return [h, s, v];
+};
+
+var convHSVtoRGB = function(HSV) {
+  "use strict";
+  var r, g, b,
+      h = HSV[0],
+      s = HSV[1],
+      v = HSV[2],
+      i = Math.floor(h * 6),
+      f = h * 6 - i,
+      p = v * (1 - s),
+      q = v * (1 - f * s),
+      t = v * (1 - (1 - f) * s);
+  switch(i % 6) {
+    case 0:
+      r = v;
+      g = t;
+      b = p;
+      break;
+    case 1:
+      r = q;
+      g = v;
+      b = p;
+      break;
+    case 2:
+      r = p;
+      g = v;
+      b = t;
+      break;
+    case 3:
+      r = p;
+      g = q;
+      b = v;
+      break;
+    case 4:
+      r = t;
+      g = p;
+      b = v;
+      break;
+    case 5:
+      r = v;
+      g = p;
+      b = q;
+      break;
+  }
+  return [r * 255, g * 255, b * 255];
 };
 
 var convHSLtoHEX = function(HSL) {

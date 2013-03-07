@@ -91,6 +91,7 @@
       document.getElementById('yuv-u').value = yuv[1];
       document.getElementById('yuv-v').value = yuv[2];
 
+      document.getElementById('main').style.backgroundColor = rgbcss;
       document.getElementById('color1').style.backgroundColor = rgbcss;
       document.getElementById('color2').style.backgroundColor = hslcss;
       document.getElementById('color3').style.backgroundColor = hslcss;
@@ -129,6 +130,7 @@
       document.getElementById('yuv-u').value = yuv[1];
       document.getElementById('yuv-v').value = yuv[2];
 
+      document.getElementById('main').style.backgroundColor = rgbcss;
       document.getElementById('color1').style.backgroundColor = rgbcss;
       document.getElementById('color2').style.backgroundColor = hslcss;
       document.getElementById('color3').style.backgroundColor = hslcss;
@@ -167,6 +169,7 @@
       document.getElementById('rgb-g').value = rgb[1];
       document.getElementById('rgb-b').value = rgb[2];
 
+      document.getElementById('main').style.backgroundColor = rgbcss;
       document.getElementById('color1').style.backgroundColor = rgbcss;
       document.getElementById('color2').style.backgroundColor = hslcss;
       document.getElementById('color3').style.backgroundColor = hslcss;
@@ -195,8 +198,8 @@
     </div>
     <div id="color3" class="box">
       <div><label for="yuv-y">Luminance</label><input id="yuv-y" onchange="colorizeViaYUV();" name="yuv-y" type="range" max="255" min="0" /></div>
-      <div><label for="yuv-u">Chrominance-U</label><input id="yuv-u" onchange="colorizeViaYUV();" name="yuv-u" type="range" max="111" min="-111" /></div>
-      <div><label for="yuv-v">Chrominance-V</label><input id="yuv-v" onchange="colorizeViaYUV();" name="yuv-v" type="range" max="157" min="-155" /></div>
+      <div><label for="yuv-u">Chrominance-U</label><input id="yuv-u" onchange="colorizeViaYUV();" name="yuv-u" type="range" max="255" min="0" /></div>
+      <div><label for="yuv-v">Chrominance-V</label><input id="yuv-v" onchange="colorizeViaYUV();" name="yuv-v" type="range" max="255" min="0" /></div>
       <span id="yuvvalue"></span>
     </div>
     <div id="colors" class="boxes"></div>

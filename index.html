@@ -48,7 +48,9 @@
       var color  = this.getAttribute('data-color');
       var rgb2   = convHEXtoRGB(color);
       var rgb2cs = 'rgb('+rgb2[0]+','+rgb2[1]+','+rgb2[2]+')';
-      var hsl    = convRGBtoHSL(rgb2);
+      var hsv    = convRGBtoHSV(rgb2);
+      var rgb3   = convHSVtoRGB(hsv);
+      var hsl    = convRGBtoHSL(rgb3);
       var hslcss = 'hsl('+hsl[0]+','+hsl[1]+'%,'+hsl[2]+'%)';
       var rgb    = convHSLtoRGB(hsl);
       var rgbcss = 'rgb('+rgb[0]+','+rgb[1]+','+rgb[2]+')';
@@ -114,12 +116,15 @@
       var hslcss = 'hsl('+hsl[0]+','+hsl[1]+'%,'+hsl[2]+'%)';
       var rgb    = convHSLtoRGB(hsl);
       var rgbcss = 'rgb('+rgb[0]+','+rgb[1]+','+rgb[2]+')';
+      var hsv    = convRGBtoHSV(rgb);
+      var rgb2   = convHSVtoRGB(hsv);
+      var hsl    = convRGBtoHSL(rgb2);
       var yuv    = convRGBtoYUV(rgb);
           rgb    = convYUVtoRGB(yuv);
       var hex    = convRGBtoHEX(rgb);
       var hexcss = '#'+hex;
-      var rgb2   = convHEXtoRGB(hex);
-      var rgb2cs = 'rgb('+rgb2[0]+','+rgb2[1]+','+rgb2[2]+')';
+      var rgb3   = convHEXtoRGB(hex);
+      var rgb3cs = 'rgb('+rgb3[0]+','+rgb3[1]+','+rgb3[2]+')';
       var divs;
 
       for(var i = 0; i < 180; i++) {
@@ -141,13 +146,13 @@
         document.getElementById('colors').appendChild(divs);
       }
 
-      document.getElementById('color1').innerHTML = rgb2cs;
+      document.getElementById('color1').innerHTML = rgb3cs;
       document.getElementById('color2').innerHTML = hslcss;
       document.getElementById('color3').innerHTML = rgbcss;
       document.getElementById('color4').innerHTML = hexcss;
       document.getElementById('color5').innerHTML = 'yuv('+yuv[0]+','+yuv[1]+','+yuv[2]+')';
 
-      document.getElementById('color1').style.backgroundColor = rgb2cs;
+      document.getElementById('color1').style.backgroundColor = rgb3cs;
       document.getElementById('color2').style.backgroundColor = hslcss;
       document.getElementById('color3').style.backgroundColor = rgbcss;
       document.getElementById('color4').style.backgroundColor = hexcss;
