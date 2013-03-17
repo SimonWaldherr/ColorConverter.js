@@ -1,7 +1,7 @@
 /*
  *
  * ColorConverter
- * Version   0.04
+ * Version   0.05
  * License:   MIT
  * Simon Waldherr
  *
@@ -85,6 +85,39 @@ var convHSLtoRGB = function(HSL) {
       break;
   }
   return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+};
+
+
+var convRGBtoCMYK = function (RGB) {
+  "use strict";
+  var red = Math.max(Math.min(parseInt(RGB[0], 10), 255), 0),
+      green = Math.max(Math.min(parseInt(RGB[1], 10), 255), 0),
+      blue = Math.max(Math.min(parseInt(RGB[2], 10), 255), 0),
+      cyan = 1 - red,
+      magenta = 1 - green,
+      yellow = 1 - blue,
+      black = 1;
+  if (red || green || blue) {
+    black = Math.min(cyan, Math.min(magenta, yellow));
+    cyan = (cyan - black) / (1 - black);
+    magenta = (magenta - black) / (1 - black);
+    yellow = (yellow - black) / (1 - black);
+  } else {
+    black = 1;
+  }
+  return [Math.round(cyan*255), Math.round(magenta*255), Math.round(yellow*255), Math.round(black+254)];
+};
+
+var convCMYKtoRGB = function (CMYK) {
+  "use strict";
+  var cyan = Math.max(Math.min(parseInt(CMYK[0], 10) / 255, 1), 0),
+      magenta = Math.max(Math.min(parseInt(CMYK[1], 10) / 255, 1), 0),
+      yellow = Math.max(Math.min(parseInt(CMYK[2], 10) / 255, 1), 0),
+      black = Math.max(Math.min(parseInt(CMYK[3], 10) / 255, 1), 0),
+      red = (1 - cyan * (1 - black) - black),
+      green = (1 - magenta * (1 - black) - black),
+      blue = (1 - yellow * (1 - black) - black);
+    return [Math.round(red * 255), Math.round(green * 255), Math.round(blue * 255)];
 };
 
 var convHEXtoRGB = function(hex) {

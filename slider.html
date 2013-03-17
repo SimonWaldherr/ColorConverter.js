@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <title>ColorConverter - Slider Demo</title>
   <style>
-h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;}h2 a{position:relative;top:15px;font-family:"Helvetica Neue";text-decoration:none;text-align:center;width:100%;display:inline-block;}div.box div{display:block;}div.box label{width:180px;display:inline-block;}div.box input{display:inline-block;width:180px;height:30px;}div.box span{display:block;}#main{width:460px;margin:auto;padding:40px 20px;border-radius:25px;height:455px;}.boxes{display:inline-block;position:relative;top:20px;left:0px;}.box{height:190px;position:relative;top:0px;left:0px;right:0px;text-align:center;margin:5px;padding-top:10px;display:block;width:220px;float:left;-webkit-text-shadow:0px 0px 9px #000000;-moz-text-shadow:0px 0px 9px #000000;-o-text-shadow:0px 0px 9px #000000;text-shadow:0px 0px 9px #000000;filter:dropshadow(color=#000000,offx=0,offy=0);}.smallBoxes{position:relative;top:0px;left:0px;height:38px;width:38px;margin:1px;float:left;border-radius:15px;}
+h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;}h2 a{position:relative;top:45px;font-family:"Helvetica Neue";text-decoration:none;text-align:center;width:100%;display:inline-block;}div.box div{display:block;}div.box label{width:180px;display:inline-block;}div.box input{display:inline-block;width:180px;height:30px;}div.box span{display:block;}#main{width:460px;margin:auto;padding:40px 20px;border-radius:25px;height:700px;}.boxes{display:inline-block;position:relative;top:20px;left:0px;}.box{height:190px;position:relative;top:0px;left:0px;right:0px;text-align:center;margin:5px;padding-top:10px;display:block;width:220px;float:left;-webkit-text-shadow:0px 0px 9px #000000;-moz-text-shadow:0px 0px 9px #000000;-o-text-shadow:0px 0px 9px #000000;text-shadow:0px 0px 9px #000000;filter:dropshadow(color=#000000,offx=0,offy=0);}.smallBoxes{position:relative;top:0px;left:0px;height:38px;width:38px;margin:1px;float:left;border-radius:15px;}input[type=range]{-webkit-appearance:none;background-color:white;width:200px;height:20px;border-radius:10px;}input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;background-color:#666;opacity:0.5;width:15px;height:30px;border-radius:10px;}
   </style>
   <style id="style">
 
@@ -20,29 +20,37 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
           var inputr   = document.getElementById('rgb-r').value,
               inputg   = document.getElementById('rgb-g').value,
               inputb   = document.getElementById('rgb-b').value,
-              rgbinput = [inputr, inputg, inputb];
-              var hsl  = convRGBtoHSL(rgbinput);
+              rgbinput = [inputr, inputg, inputb],
+              hsl      = convRGBtoHSL(rgbinput);
           break;
         case 'hsl':
           var inputh   = document.getElementById('hsl-h').value,
               inputs   = document.getElementById('hsl-s').value,
               inputl   = document.getElementById('hsl-l').value,
-              hslinput = [inputh, inputs, inputl];
-              var hsl  = hslinput
+              hslinput = [inputh, inputs, inputl],
+              hsl      = hslinput
           break;
         case 'yuv':
           var inputy   = document.getElementById('yuv-y').value,
               inputu   = document.getElementById('yuv-u').value,
               inputv   = document.getElementById('yuv-v').value,
-              yuvinput = [inputy, inputu, inputv];
-              var hsl  = convRGBtoHSL(convYUVtoRGB(yuvinput));
+              yuvinput = [inputy, inputu, inputv],
+              hsl      = convRGBtoHSL(convYUVtoRGB(yuvinput));
           break;
         case 'hsv':
           var inputh   = document.getElementById('hsv-h').value,
               inputs   = document.getElementById('hsv-s').value,
               inputv   = document.getElementById('hsv-v').value,
-              hsvinput = [inputh, inputs, inputv];
-              var hsl  = convRGBtoHSL(convHSVtoRGB(hsvinput));
+              hsvinput = [inputh, inputs, inputv],
+              hsl      = convRGBtoHSL(convHSVtoRGB(hsvinput));
+          break;
+        case 'cmyk':
+          var inputc    = document.getElementById('cmyk-c').value,
+              inputm    = document.getElementById('cmyk-m').value,
+              inputy    = document.getElementById('cmyk-y').value,
+              inputk    = document.getElementById('cmyk-k').value,
+              cmykinput = [inputc, inputm, inputy, inputk],
+              hsl       = convRGBtoHSL(convCMYKtoRGB(cmykinput));
           break;
         default:
           rgbinput = [random(0,255), random(0,255), random(0,255)];
@@ -54,6 +62,8 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
       var hslcss = 'hsl('+hsl[0]+', '+hsl[1]+'%, '+hsl[2]+'%)',
           rgb    = convHSLtoRGB(hsl),
           rgbcss = 'rgb('+rgb[0]+', '+rgb[1]+', '+rgb[2]+')',
+          cmyk   = convRGBtoCMYK(rgb),
+          cmykcs = 'cmyk('+cmyk[0]+', '+cmyk[1]+', '+cmyk[2]+', '+cmyk[3]+')',
           yuv    = convRGBtoYUV(rgb),
           yuvcss = 'yuv('+yuv[0]+', '+yuv[1]+', '+yuv[2]+')',
           hex    = convRGBtoHEX(convYUVtoRGB(yuv)),
@@ -65,6 +75,7 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
       document.getElementById('hslvalue').innerHTML = hslcss;
       document.getElementById('yuvvalue').innerHTML = yuvcss;
       document.getElementById('hsvvalue').innerHTML = hsvcss;
+      document.getElementById('cmykvalue').innerHTML = cmykcs;
 
       if(mode !== 'rgb') {
         document.getElementById('rgb-r').value = rgb[0];
@@ -88,6 +99,13 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
         document.getElementById('hsv-h').value = hsv[0];
         document.getElementById('hsv-s').value = hsv[1];
         document.getElementById('hsv-v').value = hsv[2];
+      }
+
+      if(mode !== 'cmyk') {
+        document.getElementById('cmyk-c').value = cmyk[0];
+        document.getElementById('cmyk-m').value = cmyk[1];
+        document.getElementById('cmyk-y').value = cmyk[2];
+        document.getElementById('cmyk-k').value = cmyk[3];
       }
 
       document.getElementById('main').style.backgroundColor = rgbcss;
@@ -129,6 +147,13 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
       <div><label for="hsv-s">Saturation</label><input id="hsv-s" onchange="colorizeVia('hsv');" name="hsv-s" type="range" max="1" min="0" step="0.001" /></div>
       <div><label for="hsv-v">Value</label><input id="hsv-v" onchange="colorizeVia('hsv');" name="hsv-v" type="range" max="1" min="0" step="0.001" /></div>
       <span id="hsvvalue"></span>
+    </div>
+    <div id="color5" class="box">
+      <div><label for="cmyk-c">Cyan</label><input id="cmyk-c" onchange="colorizeVia('cmyk');" name="cmyk-c" type="range" max="255" min="0" step="1" /></div>
+      <div><label for="cmyk-m">Magenta</label><input id="cmyk-m" onchange="colorizeVia('cmyk');" name="cmyk-m" type="range" max="255" min="0" step="1" /></div>
+      <div><label for="cmyk-y">Yellow</label><input id="cmyk-y" onchange="colorizeVia('cmyk');" name="cmyk-y" type="range" max="255" min="0" step="1" /></div>
+      <div><label for="cmyk-k">Black</label><input id="cmyk-k" onchange="colorizeVia('cmyk');" name="cmyk-k" type="range" max="255" min="0" step="1" /></div>
+      <span id="cmykvalue"></span>
     </div>
     <h2><a href="./index.html">Boxes Demo</a></h2>
   </div>
