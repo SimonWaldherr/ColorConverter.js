@@ -2,13 +2,14 @@
 <head>
   <meta charset="utf-8">
   <title>ColorConverter - Slider Demo</title>
+  <link href="style.css" rel="stylesheet" type="text/css">
   <style>
-h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;}h2 a{position:relative;top:45px;font-family:"Helvetica Neue";text-decoration:none;text-align:center;width:100%;display:inline-block;}div.box div{display:block;}div.box label{width:180px;display:inline-block;}div.box input{display:inline-block;width:180px;height:30px;}div.box span{display:block;}#main{width:460px;margin:auto;padding:40px 20px;border-radius:25px;height:700px;}.boxes{display:inline-block;position:relative;top:20px;left:0px;}.box{height:190px;position:relative;top:0px;left:0px;right:0px;text-align:center;margin:5px;padding-top:10px;display:block;width:220px;float:left;-webkit-text-shadow:0px 0px 9px #000000;-moz-text-shadow:0px 0px 9px #000000;-o-text-shadow:0px 0px 9px #000000;text-shadow:0px 0px 9px #000000;filter:dropshadow(color=#000000,offx=0,offy=0);}.smallBoxes{position:relative;top:0px;left:0px;height:38px;width:38px;margin:1px;float:left;border-radius:15px;}input[type=range]{-webkit-appearance:none;background-color:white;width:200px;height:20px;border-radius:10px;}input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;background-color:#666;opacity:0.5;width:15px;height:30px;border-radius:10px;}
+h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;}h2 a{position:relative;top:45px;font-family:"Helvetica Neue";text-decoration:none;text-align:center;width:100%;display:inline-block;}div.box div{display:block;}div.box label{width:180px;display:inline-block;}div.box input{display:inline-block;width:180px;height:30px;}div.box span{display:block;}#main{width:460px;margin:auto;padding:40px 20px;border-radius:25px;height:730px;}.boxes{display:inline-block;position:relative;top:20px;left:0px;}.box{height:190px;position:relative;top:0px;left:0px;right:0px;text-align:center;margin:5px;padding-top:10px;display:block;width:220px;float:left;-webkit-text-shadow:0px 0px 9px #000000;-moz-text-shadow:0px 0px 9px #000000;-o-text-shadow:0px 0px 9px #000000;text-shadow:0px 0px 9px #000000;filter:dropshadow(color=#000000,offx=0,offy=0);}.smallBoxes{position:relative;top:0px;left:0px;height:38px;width:38px;margin:1px;float:left;border-radius:15px;}input[type=range]{-webkit-appearance:none;background-color:white;width:200px;height:20px;border-radius:10px;}input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;background-color:#666;opacity:0.5;width:15px;height:30px;border-radius:10px;}
   </style>
   <style id="style">
 
   </style>
-  <script src="colorconverter.js" type="text/javascript"></script>
+  <script src="./colorconverter.js" type="text/javascript"></script>
   <script>
     function random(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -115,15 +116,17 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
 
       if((hsl[2]<60)||(Math.round((rgb[0]+rgb[1]+rgb[2])/3)<120)) {
         document.getElementById('style').innerHTML = '.box{ color: #ffffff; text-shadow: 0px 0px 9px #000000; }';
+        document.body.className = 'dark';
       } else {
         document.getElementById('style').innerHTML = '.box{ color: #000000; text-shadow: 0px 0px 9px #ffffff; }';
+        document.body.className = 'light';
       }
     }
   </script>
 </head>
 <body onload="colorizeVia('rgb');">
   <div id="main">
-    <h1>ColorConverter - Slider Demo</h1>
+    <h1><a href="./index.html">&#8656; ColorConverter</a></h1><h2>Slider Demo</h2>
     <div id="color1" class="box">
       <div><label for="rgb-r">Red</label><input id="rgb-r" onchange="colorizeVia('rgb');" name="rgb-r" type="range" max="255" min="0" /></div>
       <div><label for="rgb-g">Green</label><input id="rgb-g" onchange="colorizeVia('rgb');" name="rgb-g" type="range" max="255" min="0" /></div>
@@ -155,7 +158,6 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
       <div><label for="cmyk-k">Black</label><input id="cmyk-k" onchange="colorizeVia('cmyk');" name="cmyk-k" type="range" max="255" min="0" step="1" /></div>
       <span id="cmykvalue"></span>
     </div>
-    <h2><a href="./index.html">Boxes Demo</a></h2>
   </div>
 </body>
 </html>

@@ -1,0 +1,24 @@
+body {
+  text-align: center;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
+}
+
+h1 a {
+  text-decoration: none;
+  color: black;
+}
+
+body.dark, .dark h1 a {
+  color: #ffffff !important;
+  text-shadow: 0px 0px 9px #000000;
+}
+
+body.light, .light h1 a {
+  color: #000000 !important;
+  text-shadow: 0px 0px 9px #ffffff;
+}
+
+ul {
+  list-style: none;
+}
+

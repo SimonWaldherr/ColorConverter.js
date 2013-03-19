@@ -1,0 +1,153 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ColorConverter - Boxes Demo</title>
+  <link href="style.css" rel="stylesheet" type="text/css">
+  <style>
+h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;}h2 a{position:relative;top:15px;font-family:"Helvetica Neue";text-decoration:none;text-align:center;width:100%;display:block;}#main{width:600px;margin:auto;padding:40px 20px;border-radius:25px;}.boxes{display:inline-block;position:relative;top:20px;left:0px;}.box{height:40px;position:relative;top:0px;left:0px;right:0px;text-align:center;padding-top:10px;}.smallBoxes{position:relative;top:0px;left:0px;height:38px;width:38px;margin:1px;float:left;border-radius:15px;}
+  </style>
+  <style id="style">
+
+  </style>
+  <script src="colorconverter.js" type="text/javascript"></script>
+  <script>
+    function random(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function showColor() {
+      var color  = this.getAttribute('data-color');
+      var rgb2   = convHEXtoRGB(color);
+      var rgb2cs = 'rgb('+rgb2[0]+','+rgb2[1]+','+rgb2[2]+')';
+      var hsv    = convRGBtoHSV(rgb2);
+      var rgb3   = convHSVtoRGB(hsv);
+      var hsl    = convRGBtoHSL(rgb3);
+      var hslcss = 'hsl('+hsl[0]+','+hsl[1]+'%,'+hsl[2]+'%)';
+      var rgb    = convHSLtoRGB(hsl);
+      var rgbcss = 'rgb('+rgb[0]+','+rgb[1]+','+rgb[2]+')';
+      var yuv    = convRGBtoYUV(rgb);
+          rgb    = convYUVtoRGB(yuv);
+      var hex    = convRGBtoHEX(rgb);
+      var hexcss = '#'+hex;
+      var bodycss = '#'+convHSLtoHEX([hsl[0],hsl[1]*0.7,hsl[2]*0.7]);
+
+      document.getElementById('color1').innerHTML = rgb2cs;
+      document.getElementById('color2').innerHTML = hslcss;
+      document.getElementById('color3').innerHTML = rgbcss;
+      document.getElementById('color4').innerHTML = hexcss;
+      document.getElementById('color5').innerHTML = 'yuv('+yuv[0]+','+yuv[1]+','+yuv[2]+')';
+
+      document.getElementById('color1').style.backgroundColor = rgb2cs;
+      document.getElementById('color2').style.backgroundColor = hslcss;
+      document.getElementById('color3').style.backgroundColor = rgbcss;
+      document.getElementById('color4').style.backgroundColor = hexcss;
+
+      document.getElementById('main').style.backgroundColor = hexcss;
+      document.getElementsByTagName('body')[0].style.backgroundColor = bodycss;
+
+      if((hsl[2]<60)||(Math.round((rgb2[0]+rgb2[1]+rgb2[2])/3)<120)) {
+        document.getElementById('style').innerHTML = '.box{ color: #ffffff; }';
+        document.body.className = 'dark';
+      } else {
+        document.getElementById('style').innerHTML = '.box{ color: #000000; }';
+        document.body.className = 'light';
+      }
+    }
+
+    function addBox() {
+      var color  = this.getAttribute('data-color');
+      var rgb2   = convHEXtoRGB(color);
+      var rgb2cs = 'rgb('+rgb2[0]+','+rgb2[1]+','+rgb2[2]+')';
+      var hex2   = convRGBtoHEX(rgb2);
+      var divs;
+
+      divs = document.createElement("div");
+      divs.style.backgroundColor = rgb2cs;
+      divs.className = 'smallBoxes';
+      divs.setAttribute('data-color', hex2);
+      divs.addEventListener('mouseover', showColor, false);
+      divs.addEventListener('mousedown', addBox, false);
+      document.getElementById('clickd').appendChild(divs);
+    }
+
+    function colorize() {
+      var rgbinput = [random(0,255), random(0,255), random(0,255)];
+      var hashinfo = 0;
+
+      if(window.location.hash.length > 3) {
+        hashinfo = window.location.hash.split(",");
+        if(window.location.hash.indexOf("rgb") !== -1) {
+          rgbinput = [hashinfo[1],hashinfo[2],hashinfo[3]];
+        } else if(window.location.hash.indexOf("hex") !== -1) {
+          rgbinput = convHEXtoRGB(hashinfo[1]+hashinfo[2]+hashinfo[3]);
+        } else if(window.location.hash.indexOf("hsl") !== -1) {
+          rgbinput = convHSLtoRGB([hashinfo[1],hashinfo[2],hashinfo[3]]);
+        }
+      }
+
+      var hsl    = convRGBtoHSL(rgbinput);
+      var hslcss = 'hsl('+hsl[0]+','+hsl[1]+'%,'+hsl[2]+'%)';
+      var rgb    = convHSLtoRGB(hsl);
+      var rgbcss = 'rgb('+rgb[0]+','+rgb[1]+','+rgb[2]+')';
+      var hsv    = convRGBtoHSV(rgb);
+      var rgb2   = convHSVtoRGB(hsv);
+      var hsl    = convRGBtoHSL(rgb2);
+      var yuv    = convRGBtoYUV(rgb);
+          rgb    = convYUVtoRGB(yuv);
+      var hex    = convRGBtoHEX(rgb);
+      var hexcss = '#'+hex;
+      var rgb3   = convHEXtoRGB(hex);
+      var rgb3cs = 'rgb('+rgb3[0]+','+rgb3[1]+','+rgb3[2]+')';
+      var divs;
+
+      for(var i = 0; i < 180; i++) {
+        rgbinput = [random(0,255), random(0,255), random(0,255)];
+        hsl  = convRGBtoHSL(rgbinput);
+        rgb  = convHSLtoRGB(hsl);
+        hex  = convRGBtoHEX(rgb);
+        hsl2 = convHEXtoHSL(hex);
+        hex2 = convHSLtoHEX(hsl);
+        rgb2 = convHEXtoRGB(hex2);
+        smal = 'rgb('+rgb2[0]+','+rgb2[1]+','+rgb2[2]+')';
+
+        divs = document.createElement("div");
+        divs.style.backgroundColor = smal;
+        divs.className = 'smallBoxes';
+        divs.setAttribute('data-color', hex2);
+        divs.addEventListener('mouseover', showColor, false);
+        divs.addEventListener('mousedown', addBox, false);
+        document.getElementById('colors').appendChild(divs);
+      }
+
+      document.getElementById('color1').innerHTML = rgb3cs;
+      document.getElementById('color2').innerHTML = hslcss;
+      document.getElementById('color3').innerHTML = rgbcss;
+      document.getElementById('color4').innerHTML = hexcss;
+      document.getElementById('color5').innerHTML = 'yuv('+yuv[0]+','+yuv[1]+','+yuv[2]+')';
+
+      document.getElementById('color1').style.backgroundColor = rgb3cs;
+      document.getElementById('color2').style.backgroundColor = hslcss;
+      document.getElementById('color3').style.backgroundColor = rgbcss;
+      document.getElementById('color4').style.backgroundColor = hexcss;
+
+      if((hsl[2]<60)||(Math.round((rgb2[0]+rgb2[1]+rgb2[2])/3)<120)) {
+        document.getElementById('style').innerHTML = '.box{ color: #ffffff; }';
+      } else {
+        document.getElementById('style').innerHTML = '.box{ color: #000000; }';
+      }
+    }
+  </script>
+</head>
+<body onload="colorize();">
+  <div id="main">
+    <h1><a href="./index.html">&#8656; ColorConverter</a></h1><h2>Boxes Demo</h2>
+    <div id="color1" class="box"></div>
+    <div id="color2" class="box"></div>
+    <div id="color3" class="box"></div>
+    <div id="color4" class="box"></div>
+    <div id="color5" class="box"></div>
+    <div id="colors" class="boxes"></div>
+    <div id="clickd" class="boxes"></div>
+  </div>
+</body>
+</html>
