@@ -2,8 +2,9 @@
 <head>
   <meta charset="utf-8">
   <title>ColorConverter - Gradient Demo</title>
+  <link href="style.css" rel="stylesheet" type="text/css">
   <style>
-h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;}h2 a{position:relative;top:45px;font-family:"Helvetica Neue";text-decoration:none;text-align:center;width:100%;display:inline-block;}div.box div{display:block;}div.box label{width:180px;display:inline-block;}div.box input{display:inline-block;width:180px;height:30px;}div.box span{display:block;}#main{width:690px;text-align:center;margin:auto;padding:40px 20px;border-radius:25px;height:700px;}.boxes{display:inline-block;position:relative;top:20px;left:0px;}.box{height:190px;position:relative;top:0px;left:0px;right:0px;text-align:center;margin:5px;padding-top:10px;display:block;width:220px;float:left;-webkit-text-shadow:0px 0px 9px #000000;-moz-text-shadow:0px 0px 9px #000000;-o-text-shadow:0px 0px 9px #000000;text-shadow:0px 0px 9px #000000;filter:dropshadow(color=#000000,offx=0,offy=0);}.smallBoxes{position:relative;top:0px;left:0px;height:38px;width:38px;margin:1px;float:left;border-radius:15px;}input[type=range]{-webkit-appearance:none;background-color:white;width:200px;height:20px;border-radius:10px;}input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;background-color:#666;opacity:0.5;width:15px;height:30px;border-radius:10px;}
+h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;}h2 a{position:relative;top:45px;font-family:"Helvetica Neue";text-decoration:none;text-align:center;width:100%;display:inline-block;}div.box div{display:block;}div.box label{width:180px;display:inline-block;}div.box input{display:inline-block;width:180px;height:30px;}div.box span{display:block;}#main{width:690px;text-align:center;margin:auto;padding:40px 20px;border-radius:25px;height:700px;}.boxes{display:inline-block;position:relative;top:20px;left:0px;}.box{height:190px;position:relative;top:0px;left:0px;right:0px;text-align:center;margin:5px;padding-top:10px;display:block;width:220px;float:left;}#color1{background:#ddd;}.smallBoxes{position:relative;top:0px;left:0px;height:38px;width:38px;margin:1px;float:left;border-radius:15px;}input[type=range]{-webkit-appearance:none;background-color:white;width:200px;height:20px;border-radius:10px;}input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;background-color:#666;opacity:0.5;width:15px;height:30px;border-radius:10px;}
   </style>
   <style id="bgstyle">
 
@@ -29,7 +30,7 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
       color[1] = convRGBtoHEX([rgbr, Math.max(rgbg+20, 255), rgbb]);
       color[2] = convRGBtoHEX([rgbr, rgbg, Math.max(rgbb+20, 255)]);
       color[3] = convRGBtoHEX([rgbb, rgbr, rgbg]);
-      color[4] = convHSLtoHEX([parseInt(hslh*Math.random()), parseInt(hsls*Math.random()), hsll]);
+      color[4] = convHSLtoHEX([parseInt(hslh*1.3), parseInt(hsls*1.3), hsll]);
       color[5] = convHSLtoHEX([hslh, hsls+10, hsll-20]);
       color[6] = convHSLtoHEX([hslh+33, hsls, hsll]);
       color[7] = convHSLtoHEX([hslh, hsll, hsls]);
@@ -65,7 +66,7 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
 </head>
 <body onload="int();">
   <div id="main">
-    <h1>ColorConverter - Gradient Demo</h1>
+    <h1><a href="./index.html">&#8656; ColorConverter</a></h1><h2>Gradient Demo</h2>
     <div id="color1" class="box">
       <div><label for="rgb-r">Red</label><input id="rgb-r" onchange="colorize();" name="rgb-r" type="range" max="255" min="0" /></div>
       <div><label for="rgb-g">Green</label><input id="rgb-g" onchange="colorize();" name="rgb-g" type="range" max="255" min="0" /></div>
@@ -82,7 +83,6 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
       <div class="box" id="box6"></div>
       <div class="box" id="box7"></div>
     </div>
-    <h2><a href="./index.html">Boxes Demo</a></h2>
   </div>
 </body>
 </html>
