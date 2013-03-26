@@ -1,3 +1,8 @@
+# ColorConverter
+# Version   0.05
+# License:   MIT
+# Simon Waldherr
+
 convRGBtoHSL = (RGB) ->
   "use strict"
   r = Math.max(Math.min(parseInt(RGB[0], 10) / 255, 1), 0)
