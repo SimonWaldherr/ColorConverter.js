@@ -1,0 +1,91 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ColorConverter - Gradient Demo</title>
+  <link href="style.css" rel="stylesheet" type="text/css">
+  <style>
+h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;}h2 a{position:relative;top:45px;font-family:"Helvetica Neue";text-decoration:none;text-align:center;width:100%;display:inline-block;}div.box div{display:block;}div.box label{width:180px;display:inline-block;}div.box input{display:inline-block;width:180px;height:30px;}div.box span{display:block;}#main{width:690px;text-align:center;margin:auto;padding:40px 20px;border-radius:25px;height:700px;}.boxes{display:inline-block;position:relative;top:20px;left:0px;}.box{height:190px;position:relative;top:0px;left:0px;right:0px;text-align:center;margin:5px;padding-top:10px;display:block;width:220px;float:left;}#color1{background:#ddd;}.smallBoxes{position:relative;top:0px;left:0px;height:38px;width:38px;margin:1px;float:left;border-radius:15px;}input[type=range]{-webkit-appearance:none;background-color:white;width:200px;height:20px;border-radius:10px;}input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;background-color:#666;opacity:0.5;width:15px;height:30px;border-radius:10px;}
+  </style>
+  <style id="bgstyle">
+
+  </style>
+  <script src="./colorconverter.js" type="text/javascript"></script>
+  <script>
+    function random(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    
+    function colorize() {
+      var hue = document.getElementById('hue').value,
+          sat = document.getElementById('sat').value,
+          lum = document.getElementById('lum').value,
+          hsl  = [hue, sat, lum],
+          rgb  = convHSLtoRGB(hsl),
+          rgbr = rgb[0],
+          rgbg = rgb[1],
+          rgbb = rgb[2],
+          hslh = hsl[0],
+          hsls = hsl[1],
+          hsll = hsl[2],
+          i = 0, boxes = 7, color = [];
+      
+      color[0] = convRGBtoHEX([Math.max(rgbr+20, 255), rgbg, rgbb]);
+      color[1] = convRGBtoHEX([rgbr, Math.max(rgbg+20, 255), rgbb]);
+      color[2] = convRGBtoHEX([rgbr, rgbg, Math.max(rgbb+20, 255)]);
+      color[3] = convRGBtoHEX([rgbb, rgbr, rgbg]);
+      color[4] = convHSLtoHEX([parseInt(hslh*1.3), parseInt(hsls*1.3), hsll]);
+      color[5] = convHSLtoHEX([hslh, hsls+10, hsll-20]);
+      color[6] = convHSLtoHEX([hslh+33, hsls, hsll]);
+      color[7] = convHSLtoHEX([hslh, hsll, hsls]);
+      
+      resetBackground();
+      
+      for(i=0; i<boxes+1; i++) {
+        addBackground('box'+i, '#'+convRGBtoHEX(rgb), '#'+color[i]);
+      }
+    }
+    
+    function addBackground(id, color1, color2) {
+      var browser = [["","#color1"],["-moz-linear-gradient","-moz-linear-gradient(top, #color1 0%, #color2 100%)"],["-webkit-gradient","-webkit-gradient(linear, left top, left bottom, color-stop(0%,#color1), color-stop(100%,#color2))"],["-webkit-linear-gradient","-webkit-linear-gradient(top, #color1 0%,#color2 100%);"],["-o-linear-gradient","-o-linear-gradient(top, #color1 0%,#color2 100%)"],["-ms-linear-gradient","-ms-linear-gradient(top, #color1 0%,#color2 100%)"],["linear-gradient","linear-gradient(to bottom, #color1 0%,#color2 100%)"]],
+      background = '#'+id+'{'+"\n";
+      for (i = 0; i < browser.length; i += 1) {
+          background += 'background: '+browser[i][1].replace('#color1', color1).replace('#color2', color2)+'; '+"\n";
+      }
+      background += '}'+"\n";
+      document.getElementById('bgstyle').innerHTML += background;
+    }
+    
+    function resetBackground() {
+      document.getElementById('bgstyle').innerHTML = '';
+    }
+    
+    function int() {
+      document.getElementById('hue').value = random(0,360);
+      document.getElementById('sat').value = random(60,95);
+      document.getElementById('lum').value = random(30,70);
+      colorize();
+    }
+  </script>
+</head>
+<body onload="int();">
+  <div id="main">
+    <h1><a href="./index.html">&#8656; ColorConverter</a></h1><h2>Gradient Demo <small>(hue)</small></h2>
+    <div id="color1" class="box">
+      <div><label for="hue">Hue</label><input id="hue" onchange="colorize();" name="hue" type="range" max="360" min="0" /></div>
+      <div><label for="sat">Saturation</label><input id="sat" onchange="colorize();" name="sat" type="range" max="100" min="0" /></div>
+      <div><label for="lum">Luminance</label><input id="lum" onchange="colorize();" name="lum" type="range" max="100" min="0" /></div>
+      <span id="rgbvalue"></span>
+    </div>
+    <div id="boxes">
+      <div class="box" id="box0"></div>
+      <div class="box" id="box1"></div>
+      <div class="box" id="box2"></div>
+      <div class="box" id="box3"></div>
+      <div class="box" id="box4"></div>
+      <div class="box" id="box5"></div>
+      <div class="box" id="box6"></div>
+      <div class="box" id="box7"></div>
+    </div>
+  </div>
+</body>
+</html>
