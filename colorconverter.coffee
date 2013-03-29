@@ -1,7 +1,7 @@
-# ColorConverter
-# Version   0.05
-# License:   MIT
-# Simon Waldherr
+# ColorConverter .js
+# Version:      0.05
+# License: MIT / BSD
+# By: Simon Waldherr
 
 convRGBtoHSL = (RGB) ->
   "use strict"
