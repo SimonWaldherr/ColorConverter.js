@@ -1,18 +1,31 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>ColorConverter - Boxes Demo</title>
+  <title>ColorConverter - Mix Demo</title>
   <link href="style.css" rel="stylesheet" type="text/css">
   <style>
-h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;}h2 a{position:relative;top:15px;font-family:"Helvetica Neue";text-decoration:none;text-align:center;width:100%;display:block;}#main{width:600px;margin:auto;padding:40px 20px;border-radius:25px;}.boxes{display:inline-block;position:relative;top:20px;left:0px;}.box{height:40px;position:relative;top:0px;left:0px;right:0px;text-align:center;padding-top:10px;}.smallBoxes{position:relative;top:0px;left:0px;height:38px;width:38px;margin:1px;float:left;border-radius:15px;}
+h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;}h2 a{position:relative;top:15px;font-family:"Helvetica Neue";text-decoration:none;text-align:center;width:100%;display:block;}#main{width:600px;margin:auto;padding:40px 20px;border-radius:25px;}.boxes{display:inline-block;position:relative;top:20px;left:0px;}.box{height:40px;position:relative;top:0px;left:0px;right:0px;text-align:center;padding-top:10px;}.smallBoxes{position:relative;top:0px;left:0px;height:83px;width:83px;margin:1px;float:left;border-radius:15px;text-align:center;}.smallBoxes{font-size:22px;color:black;}.info{background:#aaaaaa;border-radius:15px;width:285px;height:260px;display:block;float:left;margin:6px;}#basecolor li{margin:15px;list-style:none;}
   </style>
   <style id="style">
 
   </style>
   <script src="colorconverter.js" type="text/javascript"></script>
   <script>
+    var baseColor = [127,127,127];
+
     function random(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function fillZeros(intin) {
+      intin = intin.toString();
+      if(intin.length === 3) {
+        return intin;
+      }
+      if(intin.length === 2) {
+        return '0'+intin;
+      }
+      return '00'+intin;
     }
 
     function showColor() {
@@ -29,8 +42,6 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
       yuv    = convRGBtoYUV(rgb);
       rgb    = convYUVtoRGB(yuv);
       hex    = convRGBtoHEX(rgb);
-      rgb4   = mixRGB(rgb, [255,255,255]);
-      rgb4cs = '#'+convRGBtoHEX(rgb4);
       hexcss = '#'+hex;
       bodycss = '#'+convHSLtoHEX([hsl[0],hsl[1]*0.7,hsl[2]*0.7]);
 
@@ -40,21 +51,25 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
       document.getElementById('color4').innerHTML = hexcss;
       document.getElementById('color5').innerHTML = 'yuv('+yuv[0]+','+yuv[1]+','+yuv[2]+')';
 
-      document.getElementById('color1').style.backgroundColor = rgb2cs;
-      document.getElementById('color2').style.backgroundColor = hslcss;
-      document.getElementById('color3').style.backgroundColor = rgbcss;
-      document.getElementById('color4').style.backgroundColor = hexcss;
+      this.style.border = '21px solid';
+      this.style.borderColor = rgb2cs;
+      this.style.background = '#ffffff';
+      this.style.margin = '-20px';
+      this.style.zIndex = '11';
+      this.innerHTML = 'R: '+fillZeros(rgb[0])+'<br/>G: '+fillZeros(rgb[1])+'<br/>B: '+fillZeros(rgb[2]);
+    }
 
-      document.getElementById('main').style.backgroundColor = hexcss;
-      document.getElementsByTagName('body')[0].style.backgroundColor = bodycss;
-
-      if((hsl[2]<60)||(Math.round((rgb2[0]+rgb2[1]+rgb2[2])/3)<120)) {
-        document.getElementById('style').innerHTML = '.box{ color: #ffffff; }';
-        document.body.className = 'dark';
-      } else {
-        document.getElementById('style').innerHTML = '.box{ color: #000000; }';
-        document.body.className = 'light';
-      }
+    function hideColor() {
+      var color, rgb2;
+      color  = this.getAttribute('data-color');
+      rgb2   = convHEXtoRGB(color);
+      rgb2cs = 'rgb('+rgb2[0]+','+rgb2[1]+','+rgb2[2]+')';
+      this.style.border = '0px solid';
+      this.style.borderColor = '#ffffff';
+      this.style.background = rgb2cs;
+      this.style.margin = '1px';
+      this.style.zIndex = '1';
+      this.innerHTML = '';
     }
 
     function addBox() {
@@ -75,7 +90,7 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
 
     function colorize() {
       var rgbinput, hashinfo, hsl, hslcss, rgb, rgbcss, hsv, rgb2, hsl, yuv, hex, hexcss, rgb3, rgb3cs, divs, i;
-      rgbinput = [random(0,255), random(0,255), random(0,255)];
+      rgbinput = mixRGB([random(0,255), random(0,255), random(0,255)],baseColor);
       hashinfo = 0;
 
       if(window.location.hash.length > 3) {
@@ -103,8 +118,8 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
       rgb3   = convHEXtoRGB(hex);
       rgb3cs = 'rgb('+rgb3[0]+','+rgb3[1]+','+rgb3[2]+')';
 
-      for(i = 0; i < 180; i++) {
-        rgbinput = [random(0,255), random(0,255), random(0,255)];
+      for(i = 0; i < 63; i++) {
+        rgbinput = mixRGB([random(0,255), random(0,255), random(0,255)],baseColor);
         hsl  = convRGBtoHSL(rgbinput);
         rgb  = convHSLtoRGB(hsl);
         hex  = convRGBtoHEX(rgb);
@@ -118,7 +133,7 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
         divs.className = 'smallBoxes';
         divs.setAttribute('data-color', hex2);
         divs.addEventListener('mouseover', showColor, false);
-        divs.addEventListener('mousedown', addBox, false);
+        divs.addEventListener('mouseout', hideColor, false);
         document.getElementById('colors').appendChild(divs);
       }
 
@@ -127,28 +142,38 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
       document.getElementById('color3').innerHTML = rgbcss;
       document.getElementById('color4').innerHTML = hexcss;
       document.getElementById('color5').innerHTML = 'yuv('+yuv[0]+','+yuv[1]+','+yuv[2]+')';
+    }
 
-      document.getElementById('color1').style.backgroundColor = rgb3cs;
-      document.getElementById('color2').style.backgroundColor = hslcss;
-      document.getElementById('color3').style.backgroundColor = rgbcss;
-      document.getElementById('color4').style.backgroundColor = hexcss;
-
-      if((hsl[2]<60)||(Math.round((rgb2[0]+rgb2[1]+rgb2[2])/3)<120)) {
-        document.getElementById('style').innerHTML = '.box{ color: #ffffff; }';
-      } else {
-        document.getElementById('style').innerHTML = '.box{ color: #000000; }';
-      }
+    function setBase(RGB) {
+      baseColor = RGB;
+      document.getElementById('colors').innerHTML = '';
+      colorize();
     }
   </script>
 </head>
 <body onload="colorize();">
   <div id="main">
     <h1><a href="./index.html">&#8656; ColorConverter</a></h1><h2>Boxes Demo</h2>
-    <div id="color1" class="box"></div>
-    <div id="color2" class="box"></div>
-    <div id="color3" class="box"></div>
-    <div id="color4" class="box"></div>
-    <div id="color5" class="box"></div>
+    
+    <div class="info" id="basecolor">
+      <ul>
+        <li><span onclick="setBase([255,255,255]);">set Base to white</span></li>
+        <li><span onclick="setBase([127,127,127]);">set Base to grey</span></li>
+        <li><span onclick="setBase([0,0,0]);">set Base to black</span></li>
+        <li><span onclick="setBase([255,50,50]);">set Base to red</span></li>
+        <li><span onclick="setBase([50,255,50]);">set Base to green</span></li>
+        <li><span onclick="setBase([50,50,255]);">set Base to blue</span></li>
+        <li><span onclick="setBase([random(0,255),random(0,255),random(0,255)]);">set Base to random</span></li>
+      </ul>
+    </div>
+    <div class="info" id="colorinfo">
+      <div id="color1" class="box"></div>
+      <div id="color2" class="box"></div>
+      <div id="color3" class="box"></div>
+      <div id="color4" class="box"></div>
+      <div id="color5" class="box"></div>
+    </div>
+    
     <div id="colors" class="boxes"></div>
     <div id="clickd" class="boxes"></div>
   </div>

@@ -1,7 +1,7 @@
 /*
  *
  * ColorConverter .js
- * Version:      0.05
+ * Version:      0.06
  * License: MIT / BSD
  * By: Simon Waldherr
  *
@@ -269,3 +269,12 @@ var convHEXtoHSL = function(hex) {
   "use strict";
   return convRGBtoHSL( convHEXtoRGB( hex ) );
 };
+
+var mixRGB = function(RGB1,RGB2) {
+  "use strict";
+  var r, g, b;
+  r = parseInt((RGB1[0]+RGB2[0])/2, 10);
+  g = parseInt((RGB1[1]+RGB2[1])/2, 10);
+  b = parseInt((RGB1[2]+RGB2[2])/2, 10);
+  return [r,g,b];
+}

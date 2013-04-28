@@ -1,5 +1,5 @@
 # ColorConverter .js
-# Version:      0.05
+# Version:      0.06
 # License: MIT / BSD
 # By: Simon Waldherr
 
@@ -243,3 +243,13 @@ convHSLtoHEX = (HSL) ->
 convHEXtoHSL = (hex) ->
   "use strict"
   convRGBtoHSL convHEXtoRGB(hex)
+
+mixRGB = (RGB1, RGB2) ->
+  "use strict"
+  r = undefined
+  g = undefined
+  b = undefined
+  r = parseInt((RGB1[0] + RGB2[0]) / 2, 10)
+  g = parseInt((RGB1[1] + RGB2[1]) / 2, 10)
+  b = parseInt((RGB1[2] + RGB2[2]) / 2, 10)
+  [r, g, b]
