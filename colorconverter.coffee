@@ -1,7 +1,7 @@
 #
 # *
 # * ColorConverter .js
-# * Version:      0.09
+# * Version:     0.0.9
 # * License: MIT / BSD
 # * By: Simon Waldherr
 # *
