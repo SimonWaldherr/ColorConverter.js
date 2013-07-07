@@ -20,7 +20,7 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
           sat = document.getElementById('sat').value,
           lum = document.getElementById('lum').value,
           hsl  = [hue, sat, lum],
-          rgb  = convHSLtoRGB(hsl),
+          rgb  = colorconv.HSL2RGB(hsl),
           rgbr = rgb[0],
           rgbg = rgb[1],
           rgbb = rgb[2],
@@ -29,19 +29,19 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
           hsll = hsl[2],
           i = 0, boxes = 7, color = [];
       
-      color[0] = convRGBtoHEX([Math.max(rgbr+20, 255), rgbg, rgbb]);
-      color[1] = convRGBtoHEX([rgbr, Math.max(rgbg+20, 255), rgbb]);
-      color[2] = convRGBtoHEX([rgbr, rgbg, Math.max(rgbb+20, 255)]);
-      color[3] = convRGBtoHEX([rgbb, rgbr, rgbg]);
-      color[4] = convHSLtoHEX([parseInt(hslh*1.3), parseInt(hsls*1.3), hsll]);
-      color[5] = convHSLtoHEX([hslh, hsls+10, hsll-20]);
-      color[6] = convHSLtoHEX([hslh+33, hsls, hsll]);
-      color[7] = convHSLtoHEX([hslh, hsll, hsls]);
+      color[0] = colorconv.RGB2HEX([Math.max(rgbr+20, 255), rgbg, rgbb]);
+      color[1] = colorconv.RGB2HEX([rgbr, Math.max(rgbg+20, 255), rgbb]);
+      color[2] = colorconv.RGB2HEX([rgbr, rgbg, Math.max(rgbb+20, 255)]);
+      color[3] = colorconv.RGB2HEX([rgbb, rgbr, rgbg]);
+      color[4] = colorconv.HSL2HEX([parseInt(hslh*1.3), parseInt(hsls*1.3), hsll]);
+      color[5] = colorconv.HSL2HEX([hslh, hsls+10, hsll-20]);
+      color[6] = colorconv.HSL2HEX([hslh+33, hsls, hsll]);
+      color[7] = colorconv.HSL2HEX([hslh, hsll, hsls]);
       
       resetBackground();
       
       for(i=0; i<boxes+1; i++) {
-        addBackground('box'+i, '#'+convRGBtoHEX(rgb), '#'+color[i]);
+        addBackground('box'+i, '#'+colorconv.RGB2HEX(rgb), '#'+color[i]);
       }
     }
     
