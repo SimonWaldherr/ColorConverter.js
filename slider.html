@@ -22,7 +22,7 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
               inputg   = document.getElementById('rgb-g').value,
               inputb   = document.getElementById('rgb-b').value,
               rgbinput = [inputr, inputg, inputb],
-              hsl      = convRGBtoHSL(rgbinput);
+              hsl      = colorconv.RGB2HSL(rgbinput);
           break;
         case 'hsl':
           var inputh   = document.getElementById('hsl-h').value,
@@ -36,14 +36,14 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
               inputu   = document.getElementById('yuv-u').value,
               inputv   = document.getElementById('yuv-v').value,
               yuvinput = [inputy, inputu, inputv],
-              hsl      = convRGBtoHSL(convYUVtoRGB(yuvinput));
+              hsl      = colorconv.RGB2HSL(colorconv.YUV2RGB(yuvinput));
           break;
         case 'hsv':
           var inputh   = document.getElementById('hsv-h').value,
               inputs   = document.getElementById('hsv-s').value,
               inputv   = document.getElementById('hsv-v').value,
               hsvinput = [inputh, inputs, inputv],
-              hsl      = convRGBtoHSL(convHSVtoRGB(hsvinput));
+              hsl      = colorconv.RGB2HSL(colorconv.HSV2RGB(hsvinput));
           break;
         case 'cmyk':
           var inputc    = document.getElementById('cmyk-c').value,
@@ -51,25 +51,25 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
               inputy    = document.getElementById('cmyk-y').value,
               inputk    = document.getElementById('cmyk-k').value,
               cmykinput = [inputc, inputm, inputy, inputk],
-              hsl       = convRGBtoHSL(convCMYKtoRGB(cmykinput));
+              hsl       = colorconv.RGB2HSL(colorconv.CMYK2RGB(cmykinput));
           break;
         default:
           rgbinput = [random(0,255), random(0,255), random(0,255)];
-          var hsl  = convRGBtoHSL(rgbinput);
+          var hsl  = colorconv.RGB2HSL(rgbinput);
           return false;
           break;
       }
 
       var hslcss = 'hsl('+hsl[0]+', '+hsl[1]+'%, '+hsl[2]+'%)',
-          rgb    = convHSLtoRGB(hsl),
+          rgb    = colorconv.HSL2RGB(hsl),
           rgbcss = 'rgb('+rgb[0]+', '+rgb[1]+', '+rgb[2]+')',
-          cmyk   = convRGBtoCMYK(rgb),
+          cmyk   = colorconv.RGB2CMYK(rgb),
           cmykcs = 'cmyk('+cmyk[0]+', '+cmyk[1]+', '+cmyk[2]+', '+cmyk[3]+')',
-          yuv    = convRGBtoYUV(rgb),
+          yuv    = colorconv.RGB2YUV(rgb),
           yuvcss = 'yuv('+yuv[0]+', '+yuv[1]+', '+yuv[2]+')',
-          hex    = convRGBtoHEX(convYUVtoRGB(yuv)),
+          hex    = colorconv.RGB2HEX(colorconv.YUV2RGB(yuv)),
           hexcss = '#'+hex,
-          hsv    = convRGBtoHSV(rgb),
+          hsv    = colorconv.RGB2HSV(rgb),
           hsvcss = 'hsl('+parseInt(hsv[0]*100)/100+','+parseInt(hsv[1]*100)/100+','+parseInt(hsv[2]*100)/100+')';
 
       document.getElementById('rgbvalue').innerHTML = rgbcss;

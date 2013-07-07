@@ -1,0 +1,46 @@
+{
+  "author": {
+    "email": "contact@simonwaldherr.de",
+    "name": "Simon Waldherr",
+    "url": "http://simon.waldherr.eu/"
+  },
+  "bugs": {
+    "email": "contact@simonwaldherr.de",
+    "url": "https://github.com/shownotes/disTime.js/issues"
+  },
+  "contributors": [
+    {
+      "email": "contact@simonwaldherr.de",
+      "name": "Simon Waldherr",
+      "url": "http://simon.waldherr.eu/"
+    }
+  ],
+  "demos": [
+    "./index.html"
+  ],
+  "description": "Convert between RGB, HSL and HEX color defining with these JavaScript functions under MIT-License",
+  "homepage": "https://github.com/SimonWaldherr/ColorConverter.js",
+  "keywords": [
+    "color",
+    "hex",
+    "hsl",
+    "rgb",
+    "cmyk",
+    "hsv"
+  ],
+  "license": "MIT",
+  "main": "ColorConverter.js",
+  "maintainers": [
+    {
+      "email": "contact@simonwaldherr.de",
+      "name": "Simon Waldherr",
+      "web": "http://simon.waldherr.eu/"
+    }
+  ],
+  "name": "colorconverter",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SimonWaldherr/ColorConverter.js.git"
+  },
+  "version": "0.09"
+}

@@ -31,19 +31,19 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
     function showColor() {
       var color, rgb2, rgb2cs, hsv, rgb3, hsl, hslcss, rgb, rgbcss, yuv, hex, hexcss, bodycss;
       color  = this.getAttribute('data-color');
-      rgb2   = convHEXtoRGB(color);
+      rgb2   = colorconv.HEX2RGB(color);
       rgb2cs = 'rgb('+rgb2[0]+','+rgb2[1]+','+rgb2[2]+')';
-      hsv    = convRGBtoHSV(rgb2);
-      rgb3   = convHSVtoRGB(hsv);
-      hsl    = convRGBtoHSL(rgb3);
+      hsv    = colorconv.RGB2HSV(rgb2);
+      rgb3   = colorconv.HSV2RGB(hsv);
+      hsl    = colorconv.RGB2HSL(rgb3);
       hslcss = 'hsl('+hsl[0]+','+hsl[1]+'%,'+hsl[2]+'%)';
-      rgb    = convHSLtoRGB(hsl);
+      rgb    = colorconv.HSL2RGB(hsl);
       rgbcss = 'rgb('+rgb[0]+','+rgb[1]+','+rgb[2]+')';
-      yuv    = convRGBtoYUV(rgb);
-      rgb    = convYUVtoRGB(yuv);
-      hex    = convRGBtoHEX(rgb);
+      yuv    = colorconv.RGB2YUV(rgb);
+      rgb    = colorconv.YUV2RGB(yuv);
+      hex    = colorconv.RGB2HEX(rgb);
       hexcss = '#'+hex;
-      bodycss = '#'+convHSLtoHEX([hsl[0],hsl[1]*0.7,hsl[2]*0.7]);
+      bodycss = '#'+colorconv.HSL2HEX([hsl[0],hsl[1]*0.7,hsl[2]*0.7]);
 
       document.getElementById('color1').innerHTML = rgb2cs;
       document.getElementById('color2').innerHTML = hslcss;
@@ -62,7 +62,7 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
     function hideColor() {
       var color, rgb2;
       color  = this.getAttribute('data-color');
-      rgb2   = convHEXtoRGB(color);
+      rgb2   = colorconv.HEX2RGB(color);
       rgb2cs = 'rgb('+rgb2[0]+','+rgb2[1]+','+rgb2[2]+')';
       this.style.border = '0px solid';
       this.style.borderColor = '#ffffff';
@@ -75,9 +75,9 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
     function addBox() {
       var color, rgb2, rgb2cs, hex2, divs;
       color  = this.getAttribute('data-color');
-      rgb2   = convHEXtoRGB(color);
+      rgb2   = colorconv.HEX2RGB(color);
       rgb2cs = 'rgb('+rgb2[0]+','+rgb2[1]+','+rgb2[2]+')';
-      hex2   = convRGBtoHEX(rgb2);
+      hex2   = colorconv.RGB2HEX(rgb2);
 
       divs = document.createElement("div");
       divs.style.backgroundColor = rgb2cs;
@@ -90,7 +90,7 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
 
     function colorize() {
       var rgbinput, hashinfo, hsl, hslcss, rgb, rgbcss, hsv, rgb2, hsl, yuv, hex, hexcss, rgb3, rgb3cs, divs, i;
-      rgbinput = mixRGB([random(0,255), random(0,255), random(0,255)],baseColor);
+      rgbinput = colorconv.mixRGB([random(0,255), random(0,255), random(0,255)],baseColor);
       hashinfo = 0;
 
       if(window.location.hash.length > 3) {
@@ -98,34 +98,34 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
         if(window.location.hash.indexOf("rgb") !== -1) {
           rgbinput = [hashinfo[1],hashinfo[2],hashinfo[3]];
         } else if(window.location.hash.indexOf("hex") !== -1) {
-          rgbinput = convHEXtoRGB(hashinfo[1]+hashinfo[2]+hashinfo[3]);
+          rgbinput = colorconv.HEX2RGB(hashinfo[1]+hashinfo[2]+hashinfo[3]);
         } else if(window.location.hash.indexOf("hsl") !== -1) {
-          rgbinput = convHSLtoRGB([hashinfo[1],hashinfo[2],hashinfo[3]]);
+          rgbinput = colorconv.HSL2RGB([hashinfo[1],hashinfo[2],hashinfo[3]]);
         }
       }
 
-      hsl    = convRGBtoHSL(rgbinput);
+      hsl    = colorconv.RGB2HSL(rgbinput);
       hslcss = 'hsl('+hsl[0]+','+hsl[1]+'%,'+hsl[2]+'%)';
-      rgb    = convHSLtoRGB(hsl);
+      rgb    = colorconv.HSL2RGB(hsl);
       rgbcss = 'rgb('+rgb[0]+','+rgb[1]+','+rgb[2]+')';
-      hsv    = convRGBtoHSV(rgb);
-      rgb2   = convHSVtoRGB(hsv);
-      hsl    = convRGBtoHSL(rgb2);
-      yuv    = convRGBtoYUV(rgb);
-      rgb    = convYUVtoRGB(yuv);
-      hex    = convRGBtoHEX(rgb);
+      hsv    = colorconv.RGB2HSV(rgb);
+      rgb2   = colorconv.HSV2RGB(hsv);
+      hsl    = colorconv.RGB2HSL(rgb2);
+      yuv    = colorconv.RGB2YUV(rgb);
+      rgb    = colorconv.YUV2RGB(yuv);
+      hex    = colorconv.RGB2HEX(rgb);
       hexcss = '#'+hex;
-      rgb3   = convHEXtoRGB(hex);
+      rgb3   = colorconv.HEX2RGB(hex);
       rgb3cs = 'rgb('+rgb3[0]+','+rgb3[1]+','+rgb3[2]+')';
 
       for(i = 0; i < 63; i++) {
-        rgbinput = mixRGB([random(0,255), random(0,255), random(0,255)],baseColor);
-        hsl  = convRGBtoHSL(rgbinput);
-        rgb  = convHSLtoRGB(hsl);
-        hex  = convRGBtoHEX(rgb);
-        hsl2 = convHEXtoHSL(hex);
-        hex2 = convHSLtoHEX(hsl);
-        rgb2 = convHEXtoRGB(hex2);
+        rgbinput = colorconv.mixRGB([random(0,255), random(0,255), random(0,255)],baseColor);
+        hsl  = colorconv.RGB2HSL(rgbinput);
+        rgb  = colorconv.HSL2RGB(hsl);
+        hex  = colorconv.RGB2HEX(rgb);
+        hsl2 = colorconv.HEX2HSL(hex);
+        hex2 = colorconv.HSL2HEX(hsl);
+        rgb2 = colorconv.HEX2RGB(hex2);
         smal = 'rgb('+rgb2[0]+','+rgb2[1]+','+rgb2[2]+')';
 
         divs = document.createElement("div");
