@@ -1,0 +1,66 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ColorConverter - Mix Demo</title>
+  <link href="style.css" rel="stylesheet" type="text/css">
+  <style>
+h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;}h2 a{position:relative;top:15px;font-family:"Helvetica Neue";text-decoration:none;text-align:center;width:100%;display:block;}#main{width:600px;margin:auto;padding:40px 20px;border-radius:25px;}.boxes{display:inline-block;position:relative;top:20px;left:0px;}.box{height:40px;position:relative;top:0px;left:0px;right:0px;text-align:center;padding-top:10px;}.smallBoxes{position:relative;top:0px;left:0px;height:83px;width:83px;margin:1px;float:left;border-radius:15px;text-align:center;}.smallBoxes{font-size:22px;color:black;}.info{background:#aaaaaa;border-radius:15px;width:285px;height:260px;display:block;float:left;margin:6px;}#basecolor li{margin:15px;list-style:none;}
+  </style>
+  <style id="style">
+    #colorinfo label {
+      display: inline-block;
+      min-width: 100px;
+      margin-bottom: 10px;
+    }
+  </style>
+  <script src="colorconverter.js" type="text/javascript"></script>
+  <script>
+    function parsethis() {
+      var input, rgb, hsl, hsv, hex, cmyk, output;
+      
+      input = document.getElementById('parserinput').value;
+      rgb = colorconv.parse(input);
+      
+      if ((rgb !== false)&&(rgb !== undefined)) {
+        hsl = colorconv.RGB2HSL(rgb);
+        hsv = colorconv.RGB2HSV(rgb);
+        hex = colorconv.RGB2HEX(rgb);
+        cmyk = colorconv.RGB2CMYK(rgb);
+        document.getElementById('rgb').value = 'rgb('+rgb[0]+', '+rgb[1]+', '+rgb[2]+');';
+        document.getElementById('hsl').value = 'hsl('+hsl[0]+', '+hsl[1]+'%, '+hsl[2]+'%);';
+        document.getElementById('hsv').value = 'hsv('+parseInt(hsv[0]*100,10)/100+', '+parseInt(hsv[1]*100,10)/100+', '+parseInt(hsv[2]*100,10)/100+');';
+        document.getElementById('hex').value = '#'+hex;
+        document.getElementById('cmyk').value = 'cmyk('+cmyk[0]+', '+cmyk[1]+', '+cmyk[2]+');';
+      } else {
+        document.getElementById('rgb').value = '';
+        document.getElementById('hsl').value = '';
+        document.getElementById('hsv').value = '';
+        document.getElementById('hex').value = '';
+        document.getElementById('cmyk').value = '';
+      }
+      
+    }
+  </script>
+</head>
+<body onload="">
+  <div id="main">
+    <h1><a href="./index.html">&#8656; ColorConverter</a></h1><h2>Parser Demo</h2>
+    
+    <div class="info" id="basecolor">
+      <br/>
+      <label for="parserinput">input</label><input name="parserinput" id="parserinput" onkeyup="parsethis();" type="text">
+    </div>
+    <div class="info" id="colorinfo">
+      <br/>
+      <label for="rgb">rgb</label><input name="rgb" id="rgb" readonly="readonly" type="text"><br/>
+      <label for="hsl">hsl</label><input name="hsl" id="hsl" readonly="readonly" type="text"><br/>
+      <label for="hsv">hsv</label><input name="hsv" id="hsv" readonly="readonly" type="text"><br/>
+      <label for="hex">hex</label><input name="hex" id="hex" readonly="readonly" type="text"><br/>
+      <label for="cmyk">cmyk</label><input name="cmyk" id="cmyk" readonly="readonly" type="text">
+    </div>
+    
+    <div id="colors" class="boxes"></div>
+    <div id="clickd" class="boxes"></div>
+  </div>
+</body>
+</html>

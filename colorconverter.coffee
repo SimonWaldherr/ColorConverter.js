@@ -1,13 +1,12 @@
 #
 # *
 # * ColorConverter .js
-# * Version:      0.08
+# * Version:      0.09
 # * License: MIT / BSD
 # * By: Simon Waldherr
 # *
 # 
 
-#jslint browser: true, indent: 2 
 colorconv =
   RGB2HSL: (RGB) ->
     "use strict"
@@ -117,6 +116,7 @@ colorconv =
 
   HEX2RGB: (hex) ->
     "use strict"
+    hex = hex.substr(1)  if hex.charAt(0) is "#"
     return false  if (hex.length < 2) or (hex.length > 6)
     values = hex.split("")
     r = undefined
@@ -259,3 +259,22 @@ colorconv =
     g = parseInt((RGB1[1] + RGB2[1]) / 2, 10)
     b = parseInt((RGB1[2] + RGB2[2]) / 2, 10)
     [r, g, b]
+
+  parse: (input) ->
+    "use strict"
+    geregext = undefined
+    pattern = /((rgb|hsl|#|yuv)(\(([%, ]*([\d]+)[%, ]+([\d]+)[%, ]+([\d]+)[%, ]*)+\)|([a-f0-9]+)))/g
+    geregext = pattern.exec(input)
+    if geregext isnt null
+      switch geregext[2]
+        when "#"
+          return colorconv.HEX2RGB(geregext[3])
+        when "rgb"
+          return [parseInt(geregext[5].trim(), 10), parseInt(geregext[6].trim(), 10), parseInt(geregext[7].trim(), 10)]
+        when "hsl"
+          return colorconv.HSL2RGB([parseInt(geregext[5].trim(), 10), parseInt(geregext[6].trim(), 10), parseInt(geregext[7].trim(), 10)])
+        when "yuv"
+          return colorconv.YUV2RGB([parseInt(geregext[5].trim(), 10), parseInt(geregext[6].trim(), 10), parseInt(geregext[7].trim(), 10)])
+        else
+          return false
+    false

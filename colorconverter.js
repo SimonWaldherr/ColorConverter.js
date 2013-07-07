@@ -1,7 +1,7 @@
 /*
  *
  * ColorConverter .js
- * Version:      0.08
+ * Version:      0.09
  * License: MIT / BSD
  * By: Simon Waldherr
  *
@@ -135,6 +135,9 @@ var colorconv = {
   },
   HEX2RGB : function (hex) {
     "use strict";
+    if (hex.charAt(0) === '#') {
+      hex = hex.substr(1);
+    }
     if ((hex.length < 2) || (hex.length > 6)) {
       return false;
     }
@@ -297,6 +300,28 @@ var colorconv = {
     g = parseInt((RGB1[1] + RGB2[1]) / 2, 10);
     b = parseInt((RGB1[2] + RGB2[2]) / 2, 10);
     return [r, g, b];
+  },
+  parse : function (input) {
+    "use strict";
+    var geregext,
+      pattern = /((rgb|hsl|#|yuv)(\(([%, ]*([\d]+)[%, ]+([\d]+)[%, ]+([\d]+)[%, ]*)+\)|([a-f0-9]+)))/gmi;
+
+    geregext = pattern.exec(input);
+    if (geregext !== null) {
+      switch (geregext[2]) {
+      case '#':
+        return colorconv.HEX2RGB(geregext[3]);
+      case 'rgb':
+        return [parseInt(geregext[5].trim(), 10), parseInt(geregext[6].trim(), 10), parseInt(geregext[7].trim(), 10)];
+      case 'hsl':
+        return colorconv.HSL2RGB([parseInt(geregext[5].trim(), 10), parseInt(geregext[6].trim(), 10), parseInt(geregext[7].trim(), 10)]);
+      case 'yuv':
+        return colorconv.YUV2RGB([parseInt(geregext[5].trim(), 10), parseInt(geregext[6].trim(), 10), parseInt(geregext[7].trim(), 10)]);
+      default:
+        return false;
+      }
+    }
+    return false;
   }
 };
 
