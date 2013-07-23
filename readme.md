@@ -4,9 +4,15 @@ Convert between RGB, HSL and HEX color defining with these JavaScript functions 
 
 ##about
 
-License: MIT  
-Version: 0.09  
-Date: 07.2013  
+License:   MIT  
+Version: 0.0.9  
+Date:  07.2013  
+
+##download
+
+* npm: ```https://npmjs.org/package/colorconverter```
+* git: ```git@github.com:SimonWaldherr/ColorConverter.js.git```
+* [zip](https://github.com/SimonWaldherr/ColorConverter.js/archive/master.zip) from GitHub
 
 ##demo
 
