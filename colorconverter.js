@@ -290,6 +290,63 @@ var colorconv = {
     "use strict";
     return colorconv.RGB2HSL(colorconv.HEX2RGB(hex));
   },
+  complexity2int : function (string) {
+    "use strict";
+    var valunicode, keys = string.split(""),
+      numbers = 1,
+      uletter = 1,
+      lletter = 1,
+      special = 1,
+      complex = 0,
+      i;
+
+    for (i = 0; i < keys.length; i += 1) {
+      valunicode = keys[i].charCodeAt(0);
+      if ((valunicode > 0x40) && (valunicode < 0x5B)) {
+        //Großbuchstaben A-Z
+        uletter += 1;
+      } else if ((valunicode > 0x60) && (valunicode < 0x7B)) {
+        //Kleinbuchstaben a-z
+        lletter += 1;
+      } else if ((valunicode > 0x2F) && (valunicode < 0x3A)) {
+        //Zahlen 0-9
+        numbers += 1;
+      } else if ((valunicode > 0x20) && (valunicode < 0x7F)) {
+        //Sonderzeichen
+        special += 1;
+      }
+    }
+    complex = ((uletter * lletter * numbers * special) + Math.round(uletter * 1.8 + lletter * 1.5 + numbers + special * 2)) - 6;
+    return complex;
+  },
+  int2RGB : function (intval) {
+    "use strict";
+    if ((typeof intval !== 'number') && (intval !== false) && (intval !== true)) {
+      intval = parseInt(intval, 10);
+    }
+    if (typeof intval === 'number') {
+      if ((intval < 115) && (intval > 1)) {
+        return [255, 153 + intval, 153 - intval];
+      }
+      if ((intval > 115) && (intval < 230)) {
+        return [255 - intval, 243, 63];
+      }
+      if ((intval > 230) || (intval === true)) {
+        return [145, 243, 63];
+      }
+    }
+    if (intval === 'none') {
+      return [204, 204, 204];
+    }
+    if (intval === true) {
+      return [204, 204, 204];
+    }
+    return false;
+  },
+  complexity2RGB : function (string) {
+    "use strict";
+    return colorconv.int2RGB(colorconv.complexity2int(string));
+  },
   mixRGB : function (RGB1, RGB2) {
     "use strict";
     var r,
