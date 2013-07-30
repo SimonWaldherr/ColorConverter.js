@@ -19,6 +19,12 @@
     "./index.html"
   ],
   "description": "Convert between RGB, HSL and HEX color defining with these JavaScript functions under MIT-License",
+  "devDependencies": {
+    "grunt": ">= 0.4.1",
+    "grunt-compare-size": ">= 0.0.0",
+    "grunt-contrib-uglify": ">= 0.2.2",
+    "gzip-js": ">= 0.3.1"
+  },
   "homepage": "https://github.com/SimonWaldherr/ColorConverter.js",
   "keywords": [
     "color",
@@ -42,5 +48,5 @@
     "type": "git",
     "url": "https://github.com/SimonWaldherr/ColorConverter.js.git"
   },
-  "version": "0.0.9"
+  "version": "0.1.0"
 }

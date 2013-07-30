@@ -250,6 +250,53 @@ colorconv =
     "use strict"
     colorconv.RGB2HSL colorconv.HEX2RGB(hex)
 
+  complexity2int: (string) ->
+    "use strict"
+    valunicode = undefined
+    keys = string.split("")
+    numbers = 1
+    uletter = 1
+    lletter = 1
+    special = 1
+    complex = 0
+    i = undefined
+    i = 0
+    while i < keys.length
+      valunicode = keys[i].charCodeAt(0)
+      if (valunicode > 0x40) and (valunicode < 0x5B)
+
+        #Großbuchstaben A-Z
+        uletter += 1
+      else if (valunicode > 0x60) and (valunicode < 0x7B)
+
+        #Kleinbuchstaben a-z
+        lletter += 1
+      else if (valunicode > 0x2F) and (valunicode < 0x3A)
+
+        #Zahlen 0-9
+        numbers += 1
+
+      #Sonderzeichen
+      else special += 1  if (valunicode > 0x20) and (valunicode < 0x7F)
+      i += 1
+    complex = ((uletter * lletter * numbers * special) + Math.round(uletter * 1.8 + lletter * 1.5 + numbers + special * 2)) - 6
+    complex
+
+  int2RGB: (intval) ->
+    "use strict"
+    intval = parseInt(intval, 10)  if (typeof intval isnt "number") and (intval isnt false) and (intval isnt true)
+    if typeof intval is "number"
+      return [255, 153 + intval, 153 - intval]  if (intval < 115) and (intval > 1)
+      return [255 - intval, 243, 63]  if (intval > 115) and (intval < 230)
+      return [145, 243, 63]  if (intval > 230) or (intval is true)
+    return [204, 204, 204]  if intval is "none"
+    return [204, 204, 204]  if intval is true
+    false
+
+  complexity2RGB: (string) ->
+    "use strict"
+    colorconv.int2RGB colorconv.complexity2int(string)
+
   mixRGB: (RGB1, RGB2) ->
     "use strict"
     r = undefined

@@ -5,7 +5,7 @@ Convert between RGB, HSL and HEX color defining with these JavaScript functions 
 ##about
 
 License:   MIT  
-Version: 0.0.9  
+Version: 0.1.0  
 Date:  07.2013  
 
 ##download
