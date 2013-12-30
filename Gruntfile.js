@@ -17,7 +17,7 @@ module.exports = function(grunt) {
       options: {
         banner: '/* * * * * * * * * * * *\n' +
                 ' *  ColorConverter.js  *\n' +
-                ' * Version:     0.1.0  *\n' +
+                ' * Version:     <%= pkg.version %>  *\n' +
                 ' * License:  MIT / BSD *\n' +
                 ' * By:  Simon Waldherr *\n' +
                 ' * * * * * * * * * * * */\n\n'

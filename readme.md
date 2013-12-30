@@ -1,6 +1,7 @@
 #ColorConverter.js
 
 Convert between RGB, HSL and HEX color defining with these JavaScript functions under MIT-License
+take a look at the to PHP translated version: https://github.com/SimonWaldherr/ColorConverter.php
 
 ##about
 
