@@ -7,7 +7,7 @@ take a look at the to PHP translated version: https://github.com/SimonWaldherr/C
 
 License:   MIT  
 Version: 0.1.0  
-Date:  07.2013  
+Date:  04.2014  
 
 ##download
 
@@ -18,6 +18,17 @@ Date:  07.2013
 ##demo
 
 Test this code on the associated github page [simonwaldherr.github.com/colorconverter.js/](http://simonwaldherr.github.com/ColorConverter.js/).
+
+##matrix
+
+  . | RGB | HSL | HSV | YUV | Hex | CMYK
+----|-----|-----|-----|-----|-----|-----
+RGB |  .  |  X  |  X  |  X  |  X  |  X
+HSL |  X  |  .  |  .  |  .  |  X  |  .
+HSV |  X  |  .  |  .  |  .  |  .  |  .
+YUV |  X  |  .  |  .  |  .  |  .  |  .
+Hex |  X  |  X  |  .  |  .  |  .  |  .
+CMYK|  X  |  .  |  .  |  .  |  .  |  .
 
 ##contact
 

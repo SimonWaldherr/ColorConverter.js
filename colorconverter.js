@@ -9,6 +9,24 @@
 
 /*jslint browser: true, indent: 2 */
 
+/*
+  RGB2HSL
+  HSL2RGB
+  RGB2CMYK
+  CMYK2RGB
+  HEX2RGB
+  RGB2HEX
+  RGB2YUV
+  YUV2RGB
+  RGB2HSV
+  HSV2RGB
+  HSL2Hex
+  Hex2HSL
+  complexity2int
+  mixRGB
+  parse
+*/
+
 var colorconv = {
   RGB2HSL : function (RGB) {
     "use strict";
@@ -381,5 +399,3 @@ var colorconv = {
     return false;
   }
 };
-
-
