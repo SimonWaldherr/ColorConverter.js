@@ -1,13 +1,31 @@
 /*
  *
  * ColorConverter .js
- * Version:     0.0.9
+ * Version:     0.1.1
  * License: MIT / BSD
  * By: Simon Waldherr
  *
  */
 
 /*jslint browser: true, indent: 2 */
+
+/*
+  RGB2HSL
+  HSL2RGB
+  RGB2CMYK
+  CMYK2RGB
+  HEX2RGB
+  RGB2HEX
+  RGB2YUV
+  YUV2RGB
+  RGB2HSV
+  HSV2RGB
+  HSL2Hex
+  Hex2HSL
+  complexity2int
+  mixRGB
+  parse
+*/
 
 var colorconv = {
   RGB2HSL : function (RGB) {
@@ -151,9 +169,9 @@ var colorconv = {
       g = r;
       b = r;
     } else if (hex.length === 3) {
-      r = parseInt(values[0].toString(), 16);
-      g = parseInt(values[1].toString(), 16);
-      b = parseInt(values[2].toString(), 16);
+      r = parseInt(values[0].toString() + values[0].toString(), 16);
+      g = parseInt(values[1].toString() + values[1].toString(), 16);
+      b = parseInt(values[2].toString() + values[2].toString(), 16);
     } else if (hex.length === 6) {
       r = parseInt(values[0].toString() + values[1].toString(), 16);
       g = parseInt(values[2].toString() + values[3].toString(), 16);
@@ -381,5 +399,3 @@ var colorconv = {
     return false;
   }
 };
-
-

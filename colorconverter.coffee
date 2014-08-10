@@ -1,12 +1,31 @@
 #
 # *
 # * ColorConverter .js
-# * Version:     0.0.9
+# * Version:     0.1.1
 # * License: MIT / BSD
 # * By: Simon Waldherr
 # *
 # 
 
+#jslint browser: true, indent: 2 
+
+#
+#  RGB2HSL
+#  HSL2RGB
+#  RGB2CMYK
+#  CMYK2RGB
+#  HEX2RGB
+#  RGB2HEX
+#  RGB2YUV
+#  YUV2RGB
+#  RGB2HSV
+#  HSV2RGB
+#  HSL2Hex
+#  Hex2HSL
+#  complexity2int
+#  mixRGB
+#  parse
+#
 colorconv =
   RGB2HSL: (RGB) ->
     "use strict"
@@ -31,7 +50,11 @@ colorconv =
       h = h / 6
     else
       h = s = 0
-    [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)]
+    [
+      Math.round(h * 360)
+      Math.round(s * 100)
+      Math.round(l * 100)
+    ]
 
   HSL2RGB: (HSL) ->
     "use strict"
@@ -51,7 +74,12 @@ colorconv =
       v = l * (1 + s)
     else
       v = l + s - l * s
-    return [0, 0, 0]  if v is 0
+    if v is 0
+      return [
+        0
+        0
+        0
+      ]
     min = 2 * l - v
     sv = (v - min) / v
     h = 6 * h
@@ -83,7 +111,11 @@ colorconv =
         r = v
         g = min + vsfract
         b = min
-    [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)]
+    [
+      Math.round(r * 255)
+      Math.round(g * 255)
+      Math.round(b * 255)
+    ]
 
   RGB2CMYK: (RGB) ->
     "use strict"
@@ -101,7 +133,12 @@ colorconv =
       yellow = (yellow - black) / (1 - black)
     else
       black = 1
-    [Math.round(cyan * 255), Math.round(magenta * 255), Math.round(yellow * 255), Math.round(black + 254)]
+    [
+      Math.round(cyan * 255)
+      Math.round(magenta * 255)
+      Math.round(yellow * 255)
+      Math.round(black + 254)
+    ]
 
   CMYK2RGB: (CMYK) ->
     "use strict"
@@ -112,7 +149,11 @@ colorconv =
     red = (1 - cyan * (1 - black) - black)
     green = (1 - magenta * (1 - black) - black)
     blue = (1 - yellow * (1 - black) - black)
-    [Math.round(red * 255), Math.round(green * 255), Math.round(blue * 255)]
+    [
+      Math.round(red * 255)
+      Math.round(green * 255)
+      Math.round(blue * 255)
+    ]
 
   HEX2RGB: (hex) ->
     "use strict"
@@ -127,16 +168,20 @@ colorconv =
       g = r
       b = r
     else if hex.length is 3
-      r = parseInt(values[0].toString(), 16)
-      g = parseInt(values[1].toString(), 16)
-      b = parseInt(values[2].toString(), 16)
+      r = parseInt(values[0].toString() + values[0].toString(), 16)
+      g = parseInt(values[1].toString() + values[1].toString(), 16)
+      b = parseInt(values[2].toString() + values[2].toString(), 16)
     else if hex.length is 6
       r = parseInt(values[0].toString() + values[1].toString(), 16)
       g = parseInt(values[2].toString() + values[3].toString(), 16)
       b = parseInt(values[4].toString() + values[5].toString(), 16)
     else
       return false
-    [r, g, b]
+    [
+      r
+      g
+      b
+    ]
 
   RGB2HEX: (RGB) ->
     "use strict"
@@ -159,7 +204,11 @@ colorconv =
     y = Math.round(0.299 * r + 0.587 * g + 0.114 * b)
     u = Math.round((((b - y) * 0.493) + 111) / 222 * 255)
     v = Math.round((((r - y) * 0.877) + 155) / 312 * 255)
-    [y, u, v]
+    [
+      y
+      u
+      v
+    ]
 
   YUV2RGB: (YUV) ->
     "use strict"
@@ -172,7 +221,11 @@ colorconv =
     r = Math.round(y + v / 0.877)
     g = Math.round(y - 0.39466 * u - 0.5806 * v)
     b = Math.round(y + u / 0.493)
-    [r, g, b]
+    [
+      r
+      g
+      b
+    ]
 
   RGB2HSV: (RGB) ->
     "use strict"
@@ -200,7 +253,11 @@ colorconv =
         when b
           h = (r - g) / d + 4
       h = h / 6
-    [h, s, v]
+    [
+      h
+      s
+      v
+    ]
 
   HSV2RGB: (HSV) ->
     "use strict"
@@ -240,7 +297,11 @@ colorconv =
         r = v
         g = p
         b = q
-    [r * 255, g * 255, b * 255]
+    [
+      r * 255
+      g * 255
+      b * 255
+    ]
 
   HSL2HEX: (HSL) ->
     "use strict"
@@ -286,11 +347,36 @@ colorconv =
     "use strict"
     intval = parseInt(intval, 10)  if (typeof intval isnt "number") and (intval isnt false) and (intval isnt true)
     if typeof intval is "number"
-      return [255, 153 + intval, 153 - intval]  if (intval < 115) and (intval > 1)
-      return [255 - intval, 243, 63]  if (intval > 115) and (intval < 230)
-      return [145, 243, 63]  if (intval > 230) or (intval is true)
-    return [204, 204, 204]  if intval is "none"
-    return [204, 204, 204]  if intval is true
+      if (intval < 115) and (intval > 1)
+        return [
+          255
+          153 + intval
+          153 - intval
+        ]
+      if (intval > 115) and (intval < 230)
+        return [
+          255 - intval
+          243
+          63
+        ]
+      if (intval > 230) or (intval is true)
+        return [
+          145
+          243
+          63
+        ]
+    if intval is "none"
+      return [
+        204
+        204
+        204
+      ]
+    if intval is true
+      return [
+        204
+        204
+        204
+      ]
     false
 
   complexity2RGB: (string) ->
@@ -305,7 +391,11 @@ colorconv =
     r = parseInt((RGB1[0] + RGB2[0]) / 2, 10)
     g = parseInt((RGB1[1] + RGB2[1]) / 2, 10)
     b = parseInt((RGB1[2] + RGB2[2]) / 2, 10)
-    [r, g, b]
+    [
+      r
+      g
+      b
+    ]
 
   parse: (input) ->
     "use strict"
@@ -317,11 +407,17 @@ colorconv =
         when "#"
           return colorconv.HEX2RGB(geregext[3])
         when "rgb"
-          return [parseInt(geregext[5].trim(), 10), parseInt(geregext[6].trim(), 10), parseInt(geregext[7].trim(), 10)]
+          return [
+
+          ]
         when "hsl"
-          return colorconv.HSL2RGB([parseInt(geregext[5].trim(), 10), parseInt(geregext[6].trim(), 10), parseInt(geregext[7].trim(), 10)])
+          return colorconv.HSL2RGB([
+
+          ])
         when "yuv"
-          return colorconv.YUV2RGB([parseInt(geregext[5].trim(), 10), parseInt(geregext[6].trim(), 10), parseInt(geregext[7].trim(), 10)])
+          return colorconv.YUV2RGB([
+
+          ])
         else
           return false
     false
