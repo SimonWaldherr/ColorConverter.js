@@ -1,7 +1,7 @@
 /*
  *
  * ColorConverter .js
- * Version:     0.1.0
+ * Version:     0.1.1
  * License: MIT / BSD
  * By: Simon Waldherr
  *
@@ -169,9 +169,9 @@ var colorconv = {
       g = r;
       b = r;
     } else if (hex.length === 3) {
-      r = parseInt(values[0].toString(), 16);
-      g = parseInt(values[1].toString(), 16);
-      b = parseInt(values[2].toString(), 16);
+      r = parseInt(values[0].toString() + values[0].toString(), 16);
+      g = parseInt(values[1].toString() + values[1].toString(), 16);
+      b = parseInt(values[2].toString() + values[2].toString(), 16);
     } else if (hex.length === 6) {
       r = parseInt(values[0].toString() + values[1].toString(), 16);
       g = parseInt(values[2].toString() + values[3].toString(), 16);
