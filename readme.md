@@ -6,8 +6,8 @@ take a look at the to PHP translated version: https://github.com/SimonWaldherr/C
 ##about
 
 License:   MIT  
-Version: 0.1.1  
-Date:  04.2014  
+Version: 0.1.2  
+Date:  09.2014  
 
 ##download
 

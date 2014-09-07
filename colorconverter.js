@@ -1,13 +1,14 @@
 /*
  *
  * ColorConverter .js
- * Version:     0.1.1
+ * Version:     0.1.2
  * License: MIT / BSD
  * By: Simon Waldherr
  *
  */
 
-/*jslint browser: true, indent: 2 */
+/*jslint browser: true, node: true, plusplus: true, indent: 2 */
+/*global define */
 
 /*
   RGB2HSL
@@ -399,3 +400,17 @@ var colorconv = {
     return false;
   }
 };
+
+(function (root, factory) {
+  "use strict";
+  if (typeof define === 'function' && define.amd) {
+    define([], factory);
+  } else if (typeof exports === 'object') {
+    module.exports = factory();
+  } else {
+    root.returnExports = factory();
+  }
+}(this, function () {
+  'use strict';
+  return colorconv;
+}));
