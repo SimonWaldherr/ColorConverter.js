@@ -35,7 +35,7 @@
     "hsv"
   ],
   "license": "MIT",
-  "main": "ColorConverter.js",
+  "main": "colorconverter.js",
   "maintainers": [
     {
       "email": "contact@simonwaldherr.de",
