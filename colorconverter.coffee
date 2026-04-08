@@ -1,13 +1,13 @@
 #
 # *
 # * ColorConverter .js
-# * Version:     0.1.1
+# * Version:     0.2.0
 # * License: MIT / BSD
 # * By: Simon Waldherr
 # *
-# 
+#
 
-#jslint browser: true, indent: 2 
+#jslint browser: true, indent: 2
 
 #
 #  RGB2HSL
@@ -20,8 +20,12 @@
 #  YUV2RGB
 #  RGB2HSV
 #  HSV2RGB
-#  HSL2Hex
-#  Hex2HSL
+#  HSL2HEX
+#  HEX2HSL
+#  HSV2HEX
+#  HEX2HSV
+#  CMYK2HEX
+#  HEX2CMYK
 #  complexity2int
 #  mixRGB
 #  parse
@@ -119,40 +123,38 @@ colorconv =
 
   RGB2CMYK: (RGB) ->
     "use strict"
-    red = Math.max(Math.min(parseInt(RGB[0], 10), 255), 0)
-    green = Math.max(Math.min(parseInt(RGB[1], 10), 255), 0)
-    blue = Math.max(Math.min(parseInt(RGB[2], 10), 255), 0)
-    cyan = 1 - red
-    magenta = 1 - green
-    yellow = 1 - blue
-    black = 1
-    if red or green or blue
-      black = Math.min(cyan, Math.min(magenta, yellow))
-      cyan = (cyan - black) / (1 - black)
-      magenta = (magenta - black) / (1 - black)
-      yellow = (yellow - black) / (1 - black)
-    else
-      black = 1
+    r = Math.max(Math.min(parseInt(RGB[0], 10), 255), 0) / 255
+    g = Math.max(Math.min(parseInt(RGB[1], 10), 255), 0) / 255
+    b = Math.max(Math.min(parseInt(RGB[2], 10), 255), 0) / 255
+    k = 1 - Math.max(r, Math.max(g, b))
+    c = undefined
+    m = undefined
+    y = undefined
+    if k is 1
+      return [0, 0, 0, 100]
+    c = (1 - r - k) / (1 - k)
+    m = (1 - g - k) / (1 - k)
+    y = (1 - b - k) / (1 - k)
     [
-      Math.round(cyan * 255)
-      Math.round(magenta * 255)
-      Math.round(yellow * 255)
-      Math.round(black + 254)
+      Math.round(c * 100)
+      Math.round(m * 100)
+      Math.round(y * 100)
+      Math.round(k * 100)
     ]
 
   CMYK2RGB: (CMYK) ->
     "use strict"
-    cyan = Math.max(Math.min(parseInt(CMYK[0], 10) / 255, 1), 0)
-    magenta = Math.max(Math.min(parseInt(CMYK[1], 10) / 255, 1), 0)
-    yellow = Math.max(Math.min(parseInt(CMYK[2], 10) / 255, 1), 0)
-    black = Math.max(Math.min(parseInt(CMYK[3], 10) / 255, 1), 0)
-    red = (1 - cyan * (1 - black) - black)
-    green = (1 - magenta * (1 - black) - black)
-    blue = (1 - yellow * (1 - black) - black)
+    c = Math.max(Math.min(parseInt(CMYK[0], 10), 100), 0) / 100
+    m = Math.max(Math.min(parseInt(CMYK[1], 10), 100), 0) / 100
+    y = Math.max(Math.min(parseInt(CMYK[2], 10), 100), 0) / 100
+    k = Math.max(Math.min(parseInt(CMYK[3], 10), 100), 0) / 100
+    r = (1 - c) * (1 - k)
+    g = (1 - m) * (1 - k)
+    b = (1 - y) * (1 - k)
     [
-      Math.round(red * 255)
-      Math.round(green * 255)
-      Math.round(blue * 255)
+      Math.round(r * 255)
+      Math.round(g * 255)
+      Math.round(b * 255)
     ]
 
   HEX2RGB: (hex) ->
@@ -298,9 +300,9 @@ colorconv =
         g = p
         b = q
     [
-      r * 255
-      g * 255
-      b * 255
+      Math.round(r * 255)
+      Math.round(g * 255)
+      Math.round(b * 255)
     ]
 
   HSL2HEX: (HSL) ->
@@ -310,6 +312,22 @@ colorconv =
   HEX2HSL: (hex) ->
     "use strict"
     colorconv.RGB2HSL colorconv.HEX2RGB(hex)
+
+  HSV2HEX: (HSV) ->
+    "use strict"
+    colorconv.RGB2HEX colorconv.HSV2RGB(HSV)
+
+  HEX2HSV: (hex) ->
+    "use strict"
+    colorconv.RGB2HSV colorconv.HEX2RGB(hex)
+
+  CMYK2HEX: (CMYK) ->
+    "use strict"
+    colorconv.RGB2HEX colorconv.CMYK2RGB(CMYK)
+
+  HEX2CMYK: (hex) ->
+    "use strict"
+    colorconv.RGB2CMYK colorconv.HEX2RGB(hex)
 
   complexity2int: (string) ->
     "use strict"
