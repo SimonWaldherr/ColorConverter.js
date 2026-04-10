@@ -35,7 +35,7 @@
     "hsv"
   ],
   "license": "MIT",
-  "main": "ColorConverter.js",
+  "main": "colorconverter.js",
   "maintainers": [
     {
       "email": "contact@simonwaldherr.de",
@@ -48,5 +48,5 @@
     "type": "git",
     "url": "https://github.com/SimonWaldherr/ColorConverter.js.git"
   },
-  "version": "0.1.1"
+  "version": "0.1.2"
 }
