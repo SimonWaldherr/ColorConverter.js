@@ -49,13 +49,14 @@
   "files": [
     "dist",
     "src",
+    "colorconverter.js",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
     "build": "node scripts/build.js",
-    "test": "node --test test/",
+    "test": "node --test test/colorconverter.test.js",
     "lint": "eslint \"src/**/*.js\" \"test/**/*.js\" \"scripts/**/*.js\"",
     "format": "prettier --write \"{src,test,scripts}/**/*.js\" \"*.md\"",
     "prepublishOnly": "npm run lint && npm test && npm run build"

@@ -70,6 +70,11 @@ ${iifeCode}
 `;
 await writeFile(resolve(DIST, 'colorconverter.umd.js'), umdWrapped);
 
+// 4a. Also write colorconverter.js at the repo root for backwards compatibility.
+// Old users who loaded this library via a raw GitHub URL, CDN, or direct script tag
+// used `<script src="colorconverter.js">` — this keeps those links working.
+await writeFile(resolve(ROOT, 'colorconverter.js'), umdWrapped);
+
 // 4. Minified UMD
 await build({
   stdin: { contents: umdWrapped, resolveDir: ROOT, loader: 'js' },

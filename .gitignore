@@ -1,5 +1,8 @@
 node_modules
 dist
+# The root colorconverter.js is the built UMD bundle committed for CDN/direct use.
+# It must NOT be ignored.
+!/colorconverter.js
 .DS_Store
 npm-debug.log*
 .eslintcache
