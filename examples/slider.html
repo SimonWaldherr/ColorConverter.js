@@ -72,11 +72,11 @@ h1{position:relative;top:-50px;font-family:"Helvetica Neue";margin-bottom:-40px;
           hsv    = colorconv.RGB2HSV(rgb),
           hsvcss = 'hsl('+parseInt(hsv[0]*100)/100+','+parseInt(hsv[1]*100)/100+','+parseInt(hsv[2]*100)/100+')';
 
-      document.getElementById('rgbvalue').innerHTML = rgbcss;
-      document.getElementById('hslvalue').innerHTML = hslcss;
-      document.getElementById('yuvvalue').innerHTML = yuvcss;
-      document.getElementById('hsvvalue').innerHTML = hsvcss;
-      document.getElementById('cmykvalue').innerHTML = cmykcs;
+      document.getElementById('rgbvalue').textContent = rgbcss;
+      document.getElementById('hslvalue').textContent = hslcss;
+      document.getElementById('yuvvalue').textContent = yuvcss;
+      document.getElementById('hsvvalue').textContent = hsvcss;
+      document.getElementById('cmykvalue').textContent = cmykcs;
 
       if(mode !== 'rgb') {
         document.getElementById('rgb-r').value = rgb[0];

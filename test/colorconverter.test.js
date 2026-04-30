@@ -171,6 +171,24 @@ test('parse returns false on garbage input', () => {
   assert.equal(parse(''), false);
 });
 
+test('parse rejects non-string input gracefully', () => {
+  assert.equal(parse(null), false);
+  assert.equal(parse(undefined), false);
+  assert.equal(parse(42), false);
+});
+
+test('parse is fast on adversarial input (ReDoS regression)', () => {
+  // The original regex had nested quantifiers that produced exponential
+  // backtracking on inputs like "#(0 0 0 0 0 ... )". Make sure the
+  // current implementation handles long pathological strings in well
+  // under a second.
+  const adversarial = '#(' + '0 0 0 0 '.repeat(2000) + 'x';
+  const start = Date.now();
+  parse(adversarial);
+  const elapsed = Date.now() - start;
+  assert.ok(elapsed < 200, `parse took too long on adversarial input: ${elapsed}ms`);
+});
+
 // -- complexity --
 test('complexity2int is non-negative for typical strings and changes with content', () => {
   assert.ok(complexity2int('') >= 0 || complexity2int('') < 0); // exists

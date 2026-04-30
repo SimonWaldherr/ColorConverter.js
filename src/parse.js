@@ -3,6 +3,20 @@ import { HSL2RGB } from './rgb-hsl.js';
 import { YUV2RGB } from './rgb-yuv.js';
 import { CMYK2RGB } from './rgb-cmyk.js';
 
+// Three-number functional form: rgb(r, g, b) / hsl(h, s%, l%) / yuv(y, u, v).
+// Numbers are separated by any combination of commas, percent signs and
+// whitespace. We anchor each digit run so the engine cannot backtrack
+// across the separators (avoids the ReDoS that the original pattern had).
+const FUNC3_RE =
+  /(rgb|hsl|yuv)\s*\(\s*(\d+)\s*%?\s*[, ]\s*(\d+)\s*%?\s*[, ]\s*(\d+)\s*%?\s*\)/i;
+
+// Four-number functional form: cmyk(c%, m%, y%, k%).
+const CMYK_RE =
+  /cmyk\s*\(\s*(\d+)\s*%?\s*[, ]\s*(\d+)\s*%?\s*[, ]\s*(\d+)\s*%?\s*[, ]\s*(\d+)\s*%?\s*\)/i;
+
+// Hex form: a leading '#' followed by 2-6 hex digits.
+const HEX_RE = /#([a-f0-9]{2,6})\b/i;
+
 /**
  * Parse a CSS-like color string and return an `[r, g, b]` triple.
  *
@@ -21,48 +35,44 @@ import { CMYK2RGB } from './rgb-cmyk.js';
  * @returns {[number, number, number]|false}
  */
 export const parse = (input) => {
-  // Try CMYK first because it has four numeric components.
-  const cmykPattern =
-    /cmyk\s*\(\s*([%, \d]+)\s*\)/i;
-  const cmykMatch = cmykPattern.exec(input);
+  if (typeof input !== 'string') {
+    return false;
+  }
+
+  const cmykMatch = CMYK_RE.exec(input);
   if (cmykMatch) {
-    const parts = cmykMatch[1]
-      .split(/[%, ]+/)
-      .filter((s) => s.length > 0)
-      .map((s) => parseInt(s, 10));
-    if (parts.length >= 4) {
-      return CMYK2RGB([parts[0], parts[1], parts[2], parts[3]]);
+    return CMYK2RGB([
+      parseInt(cmykMatch[1], 10),
+      parseInt(cmykMatch[2], 10),
+      parseInt(cmykMatch[3], 10),
+      parseInt(cmykMatch[4], 10),
+    ]);
+  }
+
+  const funcMatch = FUNC3_RE.exec(input);
+  if (funcMatch) {
+    const triple = [
+      parseInt(funcMatch[2], 10),
+      parseInt(funcMatch[3], 10),
+      parseInt(funcMatch[4], 10),
+    ];
+    switch (funcMatch[1].toLowerCase()) {
+      case 'rgb':
+        return triple;
+      case 'hsl':
+        return HSL2RGB(triple);
+      case 'yuv':
+        return YUV2RGB(triple);
+      default:
+        return false;
     }
   }
 
-  const pattern =
-    /((rgb|hsl|#|yuv)(\(([%, ]*([\d]+)[%, ]+([\d]+)[%, ]+([\d]+)[%, ]*)+\)|([a-f0-9]+)))/gim;
-  const match = pattern.exec(input);
-  if (match === null) {
-    return false;
+  const hexMatch = HEX_RE.exec(input);
+  if (hexMatch) {
+    return HEX2RGB(hexMatch[1]);
   }
-  switch (match[2]) {
-    case '#':
-      return HEX2RGB(match[3]);
-    case 'rgb':
-      return [
-        parseInt(match[5].trim(), 10),
-        parseInt(match[6].trim(), 10),
-        parseInt(match[7].trim(), 10),
-      ];
-    case 'hsl':
-      return HSL2RGB([
-        parseInt(match[5].trim(), 10),
-        parseInt(match[6].trim(), 10),
-        parseInt(match[7].trim(), 10),
-      ]);
-    case 'yuv':
-      return YUV2RGB([
-        parseInt(match[5].trim(), 10),
-        parseInt(match[6].trim(), 10),
-        parseInt(match[7].trim(), 10),
-      ]);
-    default:
-      return false;
-  }
+
+  return false;
 };
+
