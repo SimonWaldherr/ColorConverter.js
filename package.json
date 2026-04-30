@@ -1,12 +1,12 @@
 {
+  "name": "colorconverter",
+  "version": "0.3.0",
+  "description": "Convert between RGB, HSL, HSV, YUV, CMYK and HEX color spaces with a tiny zero-dependency JavaScript library.",
+  "license": "MIT",
   "author": {
     "email": "contact@simonwaldherr.de",
     "name": "Simon Waldherr",
     "url": "http://simon.waldherr.eu/"
-  },
-  "bugs": {
-    "email": "contact@simonwaldherr.de",
-    "url": "https://github.com/shownotes/disTime.js/issues"
   },
   "contributors": [
     {
@@ -15,38 +15,63 @@
       "url": "http://simon.waldherr.eu/"
     }
   ],
-  "demos": [
-    "./index.html"
-  ],
-  "description": "Convert between RGB, HSL and HEX color defining with these JavaScript functions under MIT-License",
-  "devDependencies": {
-    "grunt": ">= 0.4.1",
-    "grunt-compare-size": ">= 0.0.0",
-    "grunt-contrib-uglify": ">= 0.2.2",
-    "gzip-js": ">= 0.3.1"
-  },
   "homepage": "https://github.com/SimonWaldherr/ColorConverter.js",
-  "keywords": [
-    "color",
-    "hex",
-    "hsl",
-    "rgb",
-    "cmyk",
-    "hsv"
-  ],
-  "license": "MIT",
-  "main": "colorconverter.js",
-  "maintainers": [
-    {
-      "email": "contact@simonwaldherr.de",
-      "name": "Simon Waldherr",
-      "web": "http://simon.waldherr.eu/"
-    }
-  ],
-  "name": "colorconverter",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SimonWaldherr/ColorConverter.js.git"
+    "url": "git+https://github.com/SimonWaldherr/ColorConverter.js.git"
   },
-  "version": "0.1.2"
+  "bugs": {
+    "email": "contact@simonwaldherr.de",
+    "url": "https://github.com/SimonWaldherr/ColorConverter.js/issues"
+  },
+  "keywords": [
+    "color",
+    "color-conversion",
+    "hex",
+    "hsl",
+    "hsv",
+    "rgb",
+    "cmyk",
+    "yuv"
+  ],
+  "type": "module",
+  "main": "./dist/colorconverter.cjs",
+  "module": "./dist/colorconverter.esm.js",
+  "browser": "./dist/colorconverter.umd.js",
+  "exports": {
+    ".": {
+      "import": "./dist/colorconverter.esm.js",
+      "require": "./dist/colorconverter.cjs",
+      "default": "./dist/colorconverter.esm.js"
+    },
+    "./src/*": "./src/*"
+  },
+  "files": [
+    "dist",
+    "src",
+    "colorconverter.js",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "node scripts/build.js",
+    "test": "node --test test/colorconverter.test.js",
+    "lint": "eslint \"src/**/*.js\" \"test/**/*.js\" \"scripts/**/*.js\"",
+    "format": "prettier --write \"{src,test,scripts}/**/*.js\" \"*.md\"",
+    "prepublishOnly": "npm run lint && npm test && npm run build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "esbuild": "^0.25.0",
+    "eslint": "^9.13.0",
+    "globals": "^15.11.0",
+    "prettier": "^3.3.3"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "demos": [
+    "./index.html"
+  ]
 }

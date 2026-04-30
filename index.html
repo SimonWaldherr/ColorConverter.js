@@ -1,23 +1,50 @@
-<html>
+<!doctype html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>ColorConverter</title>
-  
-  <link href="style.css" rel="stylesheet" type="text/css">
-  
+  <title>ColorConverter.js</title>
+  <link href="examples/style.css" rel="stylesheet" type="text/css">
+  <style>
+    body { padding: 40px 20px; }
+    main { max-width: 640px; margin: 0 auto; text-align: left; }
+    h1 { text-align: center; }
+    .lead { text-align: center; color: #555; margin-bottom: 32px; }
+    ul.demo-list { padding: 0; }
+    ul.demo-list li {
+      list-style: none;
+      margin: 6px 0;
+      padding: 12px 16px;
+      background: #f4f4f4;
+      border-radius: 8px;
+    }
+    ul.demo-list a { display: block; font-weight: bold; color: #222; text-decoration: none; }
+    ul.demo-list a:hover { color: #1a73e8; }
+    ul.demo-list small { display: block; color: #666; font-weight: normal; }
+    .links { text-align: center; margin-top: 32px; font-size: 14px; }
+    .links a { margin: 0 8px; }
+  </style>
 </head>
 <body>
-  <h1>ColorConverter</h1>
-  <ul>
-    <li><a href="./boxes.html">Boxes Demo</a></li>
-    <li><a href="./gradient.html">Gradient Demo</a></li>
-    <li><a href="./gradient-hue.html">Gradient Demo (hue)</a></li>
-    <li><a href="./slider.html">Slider Demo</a></li>
-    <li><a href="./mix.html">Mix Demo</a></li>
-    <li><a href="./parse.html">Parse Demo</a></li>
-    <li><a href="./converter.html">Converter Demo</a></li>
-    <li><a href="./complexity.html">Complexity Demo</a></li>
-  </ul>
-  
+  <main>
+    <h1>ColorConverter.js</h1>
+    <p class="lead">A tiny JavaScript library for converting between RGB, HSL, HSV, YUV, CMYK and HEX color spaces.</p>
+
+    <h2>Live demos</h2>
+    <ul class="demo-list">
+      <li><a href="./examples/converter.html">Converter</a><small>Convert a single color between every supported format.</small></li>
+      <li><a href="./examples/parse.html">Parser</a><small>Parse <code>#hex</code>, <code>rgb()</code>, <code>hsl()</code>, <code>yuv()</code> and <code>cmyk()</code> strings.</small></li>
+      <li><a href="./examples/boxes.html">Boxes</a><small>Random color palette using every conversion in turn.</small></li>
+      <li><a href="./examples/mix.html">Mix</a><small>Blend a base color with random samples.</small></li>
+      <li><a href="./examples/gradient.html">Gradient (RGB)</a><small>Generate gradients from RGB sliders.</small></li>
+      <li><a href="./examples/gradient-hue.html">Gradient (HSL)</a><small>Generate gradients from HSL sliders.</small></li>
+      <li><a href="./examples/slider.html">Sliders</a><small>Interactive RGB / HSL / YUV / HSV / CMYK sliders.</small></li>
+      <li><a href="./examples/complexity.html">Complexity</a><small>Visualize a string&rsquo;s &ldquo;complexity&rdquo; score as a color.</small></li>
+    </ul>
+
+    <p class="links">
+      <a href="https://github.com/SimonWaldherr/ColorConverter.js">Source on GitHub</a> &middot;
+      <a href="https://www.npmjs.com/package/colorconverter">npm</a>
+    </p>
+  </main>
 </body>
 </html>
